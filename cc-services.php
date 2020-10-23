@@ -56,24 +56,56 @@
         
         <!-- lecture des données de la BDD -->
         <?php
-            if (isset($_GET['action']) && $_GET['action']!= "consulter" | empty($_GET)){
+
+
+           if (isset ($_GET["action"]) && $_GET["action"]=="consulter" && 
+                isset($_GET['noserv']) && !empty($_GET['noserv'])){
+
+                    $data=consult($_GET['noserv']);
+
+                    foreach ($data as $key => $n){
+                        echo "<td>$n</td>";
+                        }
+            }
+            else {
                  
                 $data=research();
                 
-            
                 foreach ($data as $key => $value) {
                     echo"<tr>";
-                    foreach ($value as $k => $v) {
+
+                foreach ($value as $k => $v) {
                         echo "<td>$v</td>";
                     }
                 
-      
-        ?>
-                    <td>
-                        <a href='cc-services.php?action=delete&amp;noserv=<?php echo $value['noserv']; ?>'
-                        >
-                            <button class='btn btn-outline-danger' value='Remove'>Supprimer</button>
-                            </a>
+                echo "<td>";
+                // fonction qui recense les services ayant des salariés
+                $donnees=tridelete();
+                $taille=count($donnees);
+                
+
+                $flag=false;
+                    
+                for ($i=0; $i<$taille; $i++) {
+                        
+                    if ($value['noserv'] == $donnees[$i]['noserv']){
+                        $flag=true;
+                        break;
+                    } 
+                }
+
+                    if(!$flag){  
+                ?>
+                        <a href='employes.php?action=delete&amp;noemp=<?php echo $value['noemp']?>'>
+                        <button class='btn btn-outline-danger' value='Remove'>Supprimer</button>
+                        </a>  
+                <?php
+                    } 
+                    else {
+                ?>      <p> Ne peut être supprimé.e </p> <?php
+                    }
+                ?>
+                    
                     </td>
                     <td>
                         <a href='c-forms.php?action=modifier&amp;noserv=<?php echo $value['noserv']?>'> 
@@ -90,14 +122,7 @@
                 }
 
             }
-            elseif (isset ($_GET["action"]) && $_GET["action"]=="consulter" && 
-                    isset($_GET['noserv']) && !empty($_GET['noserv'])){
-
-                        
-
-                       consult($_GET['noserv']);
-           
-            }
+            
             ?>
         </tbody>
     </table>

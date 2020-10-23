@@ -1,11 +1,13 @@
 <!-- contient la fonction addEmploye -->
 <?php
+
+include 'connexion.php';
 function add ($a, $b, $c){
     $aa=$a;
     $bb=$b? "'".$b."'" : 'NULL';
     $cc=$c? "'".$c."'": 'NULL';
-    $db = mysqli_init();
-    mysqli_real_connect($db,'localhost','root','','afpatest');
+    
+    $db =connect();
     
     // on insère les nouvelles données
     $rs =  "insert into services values ($aa, $bb,$cc)" ;
@@ -16,9 +18,8 @@ function add ($a, $b, $c){
 
 function delete($a){
     $aa=$a;
-    $db = mysqli_init();
-    mysqli_real_connect($db,'localhost','root','','afpatest');
-    
+
+    $db =connect();
     // on supprime les données
     $rs =  "delete from services where noserv= '$aa'" ;
                         
@@ -31,8 +32,8 @@ function edit($a, $b, $c){
     $aa=$a;
     $bb=$b ? "'".$b."'" : 'NULL';
     $cc=$c? "'".$c."'": 'NULL';
-    $db = mysqli_init();
-    mysqli_real_connect($db,'localhost','root','','afpatest');
+   
+    $db =connect();
     
     // MISE A JOUR DES DONNEES
     $rs =  " update services set serv=$bb, ville=$cc where noserv=$aa";                  
@@ -43,8 +44,8 @@ function edit($a, $b, $c){
 
 function research(){
     
-    $db = mysqli_init();
-    mysqli_real_connect($db,'localhost','root','','afpatest');
+    $db =connect();
+
     $rs = mysqli_query ($db, 'select * from services');
     $data = mysqli_fetch_all ($rs, MYSQLI_ASSOC);
     mysqli_free_result($rs);
@@ -57,8 +58,9 @@ function research(){
 
 function consult($a){
     $aa=$a;
-    $db = mysqli_init();
-    mysqli_real_connect($db,'localhost','root','','afpatest');
+    
+    $db =connect();
+
     $rs = mysqli_query ($db, "select * from services where noserv='$aa'");
     $data=mysqli_fetch_array($rs, MYSQLI_ASSOC);
     mysqli_free_result($rs);
@@ -68,4 +70,17 @@ function consult($a){
     
 }
 
+
+function tridelete(){
+    
+    $db=connect();
+    $rs= mysqli_query ($db, "select distinct s.noserv from `services` as s
+                                inner join `employes` as e 
+                                on e.NoServ= S.NoServ
+                                where e.noserv in (select distinct e.noserv from `employes` as e)");
+    $donnees=mysqli_fetch_all($rs, MYSQLI_ASSOC);
+  
+    return $donnees;
+    
+}
 ?>

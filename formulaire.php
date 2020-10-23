@@ -10,6 +10,7 @@
     <body>
     <?php
     include 'crudE.php';
+    
 
         // AJOUTER QUELQU'UN, RIEN A ÉCRIRE? IRA DIRECTEMENT AU FORMULAIRE
         if (empty($_GET)){

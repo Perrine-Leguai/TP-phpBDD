@@ -14,7 +14,9 @@
 <div class="services column col-3 container-fluid pr-5">
     <div class="text-center m-2"><h3>Services</h3><br></div>
     <?php
+
         include 'crud.php'; 
+        
         // AJOUTER QUELQU'UN
         if (empty($_GET)){
         ?>

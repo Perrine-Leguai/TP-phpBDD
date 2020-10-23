@@ -10,17 +10,19 @@
     
 <a href="formulaire.php"><button type="button" class="btn btn-primary btn-lg" >Remplir le questionnaire</button></a>
     <?php 
-    include 'crudE.php';
+
+        include 'crudE.php';
+   
          // AJOUTER
         if (isset($_GET['action']) && $_GET['action']=="ajout" &&
             isset($_POST['noemp']) && !empty($_POST['noemp'])){ 
                                         
                     add($_POST['noemp'],$_POST['nom'], $_POST['prenom'],$_POST['emploi'],$_POST['embauche'],$_POST['sal'],$_POST['comm'],$_POST['sup'],$_POST['noserv'],$_POST['noproj']);
-                    echo ($_POST['noemp'] .$_POST['nom'] . $_POST['prenom']. $_POST['emploi'].$_POST['embauche'].$_POST['sal'].$_POST['comm'].$_POST['sup'].$_POST['noserv'].$_POST['noproj']);
+                    
         } 
 
         // SUPPRIMER
-        elseif ($_GET["action"]=="delete" && 
+        elseif (isset($_GET["action"]) && $_GET["action"]=="delete" && 
                 isset($_GET['noemp'])){                 
 
                     delete($_GET['noemp']);
@@ -76,39 +78,8 @@
     <!-- LECTURE DE LA BDD -->
         <?php
 
-        if (isset($_GET['action']) && $_GET['action']!= "consulter" | empty($_GET)){
-             
-            $data=research();
         
-                foreach ($data as $key => $value) {
-                echo"<tr>";
-                
-                    foreach ($value as $k=> $v) {
-                        echo "<td>$v</td>";
-                    }
-                
-                    ?>
-                    <td>
-                        
-                        <a href='employes.php?action=delete&amp;noemp=<?php echo $value['noemp']?>'>
-                        <button class='btn btn-outline-danger' value='Remove'>Supprimer</button>
-                        </a>
-                    </td>
-                    <td>
-                        <a href='formulaire.php?action=modifier&amp;noemp=<?php echo $value['noemp'] ?>'>
-                        <button class='btn btn-outline-success' value='Modify'>Modifier</button>
-                        </a> 
-                    </td>
-                    <td>
-                        <a href='employes.php?action=consulter&amp;noemp=<?php echo $value['noemp'] ?>'>
-                        <button class='btn btn-outline-info' value='Modify'>Consulter</button>
-                        </a> 
-                    </td>
-                </tr>
-            <?php
-            } 
-        }
-        elseif (isset ($_GET["action"]) && $_GET["action"]=="consulter" && 
+                if (isset ($_GET["action"]) && $_GET["action"]=="consulter" && 
                     isset($_GET['noemp']) && !empty($_GET['noemp'])){
 
                        
@@ -117,8 +88,64 @@
                         foreach ($data as $key => $n){
                             echo "<td>$n</td>";
                         }
+                }
+                else {
+             
+                    $data=research();
+            
+            
+                    foreach ($data as $key => $value) {
+                    echo"<tr>";
+                    
+                    foreach ($value as $k=> $v) {
+                        echo "<td>$v</td>";
+                    }
+                    
+                    echo "<td>";
+                    // fontion qui recense les personnes ayant des subalternes (liste de noemp dans un tableau)
+                    $donnees=tridelete();
+                    $taille=count($donnees);
+                    
+                    $flag=false;
+
+                    for ($i=0; $i<$taille; $i++) {
+                        
+                        if ($value['noemp'] == $donnees[$i]['noemp']){
+                            $flag=true;
+                            break;
+                        } 
+                    }
+
+                        if(!$flag){  
+                    ?>
+                            <a href='employes.php?action=delete&amp;noemp=<?php echo $value['noemp']?>'>
+                            <button class='btn btn-outline-danger' value='Remove'>Supprimer</button>
+                            </a>  
+                    <?php
+                        } 
+                        else {
+                    ?>      <p> Ne peut être supprimé.e </p> <?php
+                        }
+                       
+                            
+                        ?>
+                        </td>
+                    
+                        <td>
+                            <a href='formulaire.php?action=modifier&amp;noemp=<?php echo $value['noemp'] ?>'>
+                            <button class='btn btn-outline-success' value='Modify'>Modifier</button>
+                            </a> 
+                        </td>
+                        <td>
+                            <a href='employes.php?action=consulter&amp;noemp=<?php echo $value['noemp'] ?>'>
+                            <button class='btn btn-outline-info' value='Modify'>Consulter</button>
+                            </a> 
+                        </td>
+                </tr>
+            <?php
+            } 
         }
-        ?>
+                ?>
     </tbody>
 </table>
 

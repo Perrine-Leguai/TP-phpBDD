@@ -11,6 +11,7 @@
 <a href="formulaire.php"><button type="button" class="btn btn-primary btn-lg" >Remplir le questionnaire</button></a>
     <?php 
     
+    include 'connexion.php';
          // AJOUTER
         if ($_GET['action']=="ajout"){
             if  (isset($_POST['noemp']) && !empty($_POST['noemp'])){
@@ -122,12 +123,12 @@
         <?php
 
         if ($_GET['action']!= "consulter" | empty($_GET)){
-            $db = mysqli_init();
-            mysqli_real_connect($db,'localhost','root','','afpatest');
+            
+            $db= connect();
             $rs = mysqli_query ($db, 'select * from employes');
             $data = mysqli_fetch_all ($rs, MYSQLI_ASSOC);
             mysqli_free_result($rs);
-            mysqli_close($db);
+           
         
                 foreach ($data as $key => $value) {
                 echo"<tr>";
@@ -162,12 +163,11 @@
 
                         $noemp=$_GET['noemp'];
 
-                        $db = mysqli_init();
-                        mysqli_real_connect($db,'localhost','root','','afpatest');
+                        $db= connect();
                         $rs = mysqli_query ($db, "select * from employes where noemp='$noemp'");
                         $data=mysqli_fetch_array($rs, MYSQLI_ASSOC);
                         mysqli_free_result($rs);
-                        mysqli_close($db);
+                      
                         
                         foreach ($data as $key => $n){
                             echo "<td>$n</td>";
