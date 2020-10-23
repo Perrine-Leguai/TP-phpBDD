@@ -102,7 +102,7 @@
                 <?php
                     } 
                     else {
-                ?>      <p> Ne peut être supprimé.e </p> <?php
+                ?>      <p> Ne peut être supprimé </p> <?php
                     }
                 ?>
                     
