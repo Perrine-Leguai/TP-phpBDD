@@ -90,19 +90,19 @@
                 }
 
             // CONSULTER
-            elseif (isset ($_GET["action"]) && $_GET["action"]=="consulter" && 
-                    isset($_GET['noemp']) && !empty($_GET['noemp'])){
+            // elseif (isset ($_GET["action"]) && $_GET["action"]=="consulter" && 
+            //         isset($_GET['noemp']) && !empty($_GET['noemp'])){
 
-                        $noemp=$_GET['noemp'];
+            //             $noemp=$_GET['noemp'];
 
-                        $db = mysqli_init();
-                        mysqli_real_connect($db,'localhost','root','','afpatest');
-                        $rs = mysqli_query ($db, "select * from employes where noemp='$noemp'");
-                        $data=mysqli_fetch_array($rs, MYSQLI_ASSOC);
+            //             $db = mysqli_init();
+            //             mysqli_real_connect($db,'localhost','root','','afpatest');
+            //             $rs = mysqli_query ($db, "select * from employes where noemp='$noemp'");
+            //             $data=mysqli_fetch_array($rs, MYSQLI_ASSOC);
                         
-                        mysqli_free_result($rs);
-                        mysqli_close($db);
-                }
+            //             mysqli_free_result($rs);
+            //             mysqli_close($db);
+            //     }
 
             ?>
 <!-- afficher tableau -->

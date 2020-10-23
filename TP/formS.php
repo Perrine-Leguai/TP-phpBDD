@@ -11,7 +11,7 @@
 <body>
     
 <!-- CATEGORIE SERVICES -->
-<div class="services column col-4 container-fluid ">
+<div class="services column col-3 container-fluid pr-5">
     <div class="text-center m-2"><h3>Services</h3><br></div>
     <?php
 
@@ -19,19 +19,19 @@
         if (empty($_GET)){
         ?>
         <form action="services.php?action=ajout" method="post">
-            <div class="d-flex">
-                <label for="NumeroService"> N° service </label>
+            <div class="d-flex justify-content-end m-2 p-1">
+                <label for="NumeroService"> N° service : </label>
                 <input type="number" name="noserv" id ="NumeroService" placeholder="ex : 2">
             </div>
-            <div>
-                <label for="Service"> Service </label>
+            <div class="d-flex justify-content-end m-2 p-1">
+                <label for="Service"> Service : </label>
                 <input type="text" name="serv" id ="Service" placeholder="ex: logistique">
             </div>
-            <div>
-                <label for="ville"> Ville </label>
+            <div class="d-flex justify-content-end m-2 p-1">
+                <label for="ville"> Ville : </label>
                 <input type="text" name="ville" id ="ville" placeholder="ex : Seclin">
             </div>
-            <div>
+            <div class="d-flex justify-content-center m-4" > 
                 <button type="submit"  class="btn btn-primary"> Ajouter</button>
             </div>
             </form>
