@@ -95,7 +95,7 @@
             
             
                     foreach ($data as $key => $value) {
-                    echo"<tr>";
+                        echo"<tr>";
                     
                     foreach ($value as $k=> $v) {
                         echo "<td>$v</td>";

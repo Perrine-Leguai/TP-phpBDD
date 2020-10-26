@@ -21,7 +21,7 @@ function delete($a){
 
     $db =connect();
     // on supprime les données
-    $rs =  "delete from services where noserv= '$aa'" ;
+    $rs =  "delete from services where noserv=$aa " ;
                         
     $tab =mysqli_query($db, $rs);
     return $tab;

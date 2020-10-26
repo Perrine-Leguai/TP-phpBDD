@@ -96,7 +96,7 @@
 
                     if(!$flag){  
                 ?>
-                        <a href='employes.php?action=delete&amp;noemp=<?php echo $value['noemp']?>'>
+                        <a href='cc-services.php?action=delete&amp;noserv=<?php echo $value['noserv']?>'>
                         <button class='btn btn-outline-danger' value='Remove'>Supprimer</button>
                         </a>  
                 <?php

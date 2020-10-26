@@ -10,60 +10,65 @@
 </head>
 <body>
     
-<!-- CATEGORIE SERVICES -->
-<div class="services column col-3 container-fluid pr-5">
-    <div class="text-center m-2"><h3>Services</h3><br></div>
     <?php
 
         include 'crud.php'; 
         
         // AJOUTER QUELQU'UN
         if (empty($_GET)){
-        ?>
-        <form action="cc-services.php?action=ajout" method="post">
-            <div class="d-flex justify-content-end m-2 p-1">
-                <label for="NumeroService"> N° service : </label>
-                <input type="number" name="noserv" id ="NumeroService" placeholder="ex : 2">
-            </div>
-            <div class="d-flex justify-content-end m-2 p-1">
-                <label for="Service"> Service : </label>
-                <input type="text" name="serv" id ="Service" placeholder="ex: logistique">
-            </div>
-            <div class="d-flex justify-content-end m-2 p-1">
-                <label for="ville"> Ville : </label>
-                <input type="text" name="ville" id ="ville" placeholder="ex : Seclin">
-            </div>
-            <div class="d-flex justify-content-center m-4" > 
-                <button type="submit"  class="btn btn-primary"> Ajouter</button>
-            </div>
-            </form>
-        <?php
-            }
+            $action="ajout";
+        }
 
-
-        // MODIFIER LES DONNEES  
-        elseif ($_GET['action']=='modifier' && 
+        // MODIFIER LES DONNEES
+        elseif (!empty($_GET) && $_GET['action']== 'modifier' && 
                 isset($_GET['noserv']) && !empty($_GET['noserv'])){
+                    
+                    $action='modifier';
+                    $data=consult($_GET['noserv']);
+                }
+    ?>
 
+<!-- CATEGORIE -->
+    <div class="container">
+        <div class="row justify-content-md-center">
+            <div class="employes col-6 offset-3  m-2  ">
+                <div class="row justify-content-md-center m-4">
+                    <h3 class="employes col-4   ">Services</h3>
+                </div>
 
-                        $data=consult($_GET['noserv']);
+                <!-- formulaire d'ajout -->
+                <div class="row">        
+                    <div class="col-12">
+                        <div>
+                            <form action="<?php  if( $action == "modifier"){ echo "cc-services.php?action=modifier"; }else{ echo "cc-services.php?action=ajout" ; } ?>&amp;noserv=<?php if( $action== "modifier"){echo $_GET['noserv']; }?>" method="POST">
+                                <div class="row justify-content-md-center">
+                                    <!-- NOSERV -->
+                                    <div class="d-flex justify-content-end m-2 p-1">
+                                        <label for="NumeroService"> N° service : </label>
+                                        <input type="number" name="noserv" id ="NumeroService" placeholder="ex : 2" value="<?php if ($action =='modifier'){ echo $data['noserv'];}?>">
+                                    </div>
+                                    <!-- SERVICES -->
+                                    <div class="d-flex justify-content-end m-2 p-1">
+                                        <label for="Service"> Service : </label>
+                                        <input type="text" name="serv" id ="Service" placeholder="ex: logistique" value="<?php if ($action =='modifier'){ echo $data['serv'];}?>">
+                                    </div>
+                                    <!-- VILLE -->
+                                    <div class="d-flex justify-content-end m-2 p-1">
+                                        <label for="ville"> Ville : </label>
+                                        <input type="text" name="ville" id ="ville" placeholder="ex : Seclin" value="<?php if ($action =='modifier'){ echo $data['ville'];}?>">
+                                    </div>
+                                    <div class="d-flex justify-content-center m-4" > 
+                                        <button type="submit"  class="btn btn-primary"> <?php if ($action == "modifier"){ echo ("Modifier") ;} else{ echo "Ajouter" ;}?></button>
+                                    </div>
+                                </div>    
+                            </form>
+                        </div>
+                    </div>
+                </div>                     
+            </div>
+        </div>
+    </div>
 
-                                                
-                ?>
-                
-        <form action="cc-services.php?action=modifier&noserv=<?php echo $_GET['noserv'];?>" method="post">
-           <div> <label for="NumeroService"> N° service </label>
-            <input type="number" name="noserv" id ="NumeroService" value=<?php echo $data['noserv'] ?>> </div>
-            <div><label for="Service"> Service </label>
-            <input type="text" name="serv" id ="Service" value=<?php echo $data['serv'] ?>></div>
-            <div><label for="ville"> Ville </label>
-            <input type="text" name="ville" id ="ville" value=<?php echo $data['ville'] ?>></div>
-            <button type="submit"  class="btn btn-primary"> Modifier</button>
-
-        </form>
-        <?php 
-            }
-            ?>
-</div>
+                                    
 </body>
 </html>
