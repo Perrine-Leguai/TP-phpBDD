@@ -17,14 +17,14 @@
             <div class="row justify-content-md-center">
                 <div class="employes col-6 offset-3  m-2  ">
                     <div class="row justify-content-md-center m-4">
-                        <h3 class="mdp col-4   ">Email & MDP</h3>
+                        <h3 class="mdp col-4   ">CONNEXION</h3>
                     </div>
                     <div class="row">
                     
                         <!-- FORMULAIRES D AJOUT -->
                         <div class="col-12">
                             <div >
-                                <form action="traitement.php?action=ajout"  method="POST">
+                                <form action="traitement.php"  method="POST">
                                     
                                         <div class="row justify-content-md-center">
                                            
@@ -32,13 +32,14 @@
                                             
                                                 <div class="  row justify-content-md-center m-2 ">
                                                     <div class=" row mr-2">
-                                                        <div class="p-1"><label for="nom"> Nom : </label></div>
-                                                        <div><input type="text" name="nom" id="nom" placeholder="ex: Dupont "  ></div>
+                                                        <div class="p-1"><label for="email"> Email : </label></div>
+                                                        <div><input type="text" name="email" id="email" placeholder="blabla@gmail.com"  ></div>
                                                     </div>
                                                     <div class=" row justify-content-md-center ml-2">
-                                                        <div class="p-1"><label for="prenom"> Prénom : </label></div>
-                                                        <div><input type="text" name="prenom" id="prenom" placeholder="ex: Valérie " ></div>
+                                                        <div class="p-1"><label for="mdp"> Mot de passe : </label></div>
+                                                        <div><input type="text" name="mdp" id="mdp" placeholder="********" ></div>
                                                     </div>
+                                                   
                                                 </div>
                                             
 
