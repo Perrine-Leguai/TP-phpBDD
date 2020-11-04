@@ -24,8 +24,7 @@
                         <!-- FORMULAIRES D AJOUT -->
                         <div class="col-12">
                             <div >
-                                <form action="traitement.php"  method="POST">
-                                    
+                                <form action="traitement.php?action=connect"  method="POST">
                                         <div class="row justify-content-md-center">
                                            
                                             <!-- NOM & PRENOM -->
@@ -37,19 +36,12 @@
                                                     </div>
                                                     <div class=" row justify-content-md-center ml-2">
                                                         <div class="p-1"><label for="mdp"> Mot de passe : </label></div>
-                                                        <div><input type="text" name="mdp" id="mdp" placeholder="********" ></div>
-                                                    </div>
-                                                   
+                                                        <div><input type="password" name="mdp" id="mdp" placeholder="********" ></div>
+                                                    </div>  
                                                 </div>
-                                            
-
-                                            
-
-                                            
-
                                             <!-- BOUTON -->
                                             <div class=" row justify-content-md-center col-4 m-4">
-                                                <button type="submit"  class="btn btn-primary "> Ajouter </button>
+                                                <button type="submit" name="connexion" id="connexion" class="btn btn-primary " >Connection</button>  
                                             </div>
 
                                         </div>
