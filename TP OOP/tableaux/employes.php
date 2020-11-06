@@ -15,24 +15,32 @@ if (!$_SESSION){
     <title>Document</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
 </head>
-<body>
-     
-            <div class="boutons col-10 offset-1 mt-3 mb-3 row">
-            <?php  ?>
-                
-                <?php if ($_SESSION['profil']=="administrateur"){ ?>
-                    <div class="  col-3 mb-1">
-                        <a href="formulaire.php"><button type="button" class="btn btn-outline-primary " >Ajouter un employé  +</button></a>
-                    </div>
-                <?php } ?>
-                
-                <div class=" <?php if(isset($_SESSION) && $_SESSION['profil']=="administrateur"){ echo"col-6 mb-1";} else {echo "col-9 mb-1";} ?>">
-                    <a href="cc-services.php" ><button name="employes" type="submit"  class="btn btn-primary "> SERVICES </button></a>
-                </div>
-                <div class=" col-3 mb-1">
-                    <a href="../traitement.php?p=deco" ><button name="connexion" type="submit"  class="btn btn-outline-secondary "> Se déconnecter  X </button></a>
-                </div>
+<body class="col-12">
+    <div class="container-fluid">
+
+    <div class="boutons mt-3 mb-3 row">
+        <?php 
+        if (isset($_GET['action']) && $_GET['action']='consulter'){ ?>
+            <div class="  col-1 text-left">
+                <a href="employes.php"><img src="../img/fleche.png" ></button></a>
             </div>
+            <?php
+        }
+        
+        if ($_SESSION['profil']=="administrateur"){ ?>
+            <div class="  col-3 mb-1">
+                <a href="formulaire.php"><button type="button" class="btn btn-outline-primary " >Ajouter un employé  +</button></a>
+            </div>
+        <?php } ?>
+        
+        <div class=" <?php if(isset($_SESSION) && $_SESSION['profil']=="administrateur"){ echo"col-5 mb-1";} else {echo "col-8 mb-1";} ?>">
+            <a href="cc-services.php" ><button name="employes" type="submit"  class="btn btn-primary "> SERVICES </button></a>
+        </div>
+        <div class=" col-3 mb-1 text-right">
+            <a href="../traitement.php?p=deco" ><button name="connexion" type="submit"  class="btn btn-outline-secondary "> Se déconnecter  X </button></a>
+        </div>
+
+    </div>
 
 
     <?php 
@@ -113,134 +121,139 @@ if (!$_SESSION){
                     <?php }
                 }
     ?>
-<!-- afficher tableau -->
-<table class="table stripped table-hover">
-    <thead class="thead-light table-bordered" >
-        <tr>
-            <th> N° Employé </th>
-            <th> Nom </th>
-            <th> Prénom </th>
-            <th> Emploi </th>
-            <th> Supérieur </th>
-            <th> Embauche </th>
-            <?php if ($_SESSION['profil']=="administrateur"){ ?>
-            <th> Salaire </th>
-            <th> Commission </th>
-            <?php } ?>
-            <th> N° Service </th>
-            <?php if ($_SESSION['profil']=="administrateur"){ ?>
-            <th> Supprimer </th>
-            <th> Modifier </th>
-            <?php } ?>
-            <th> Consulter </th>
-        </tr>
-    </thead>
-    <tfoot class="thead-light table-bordered" >
-        <tr>
-            <th> N° Employé </th>
-            <th> Nom </th>
-            <th> Prénom </th>
-            <th> Emploi </th>
-            <th> Supérieur </th>
-            <th> Embauche </th>
-            <?php if ($_SESSION['profil']=="administrateur"){ ?>
-            <th> Salaire </th>
-            <th> Commission </th>
-            <?php } ?>
-            
-            <th> N° Service </th>
-            
-            <?php if ($_SESSION['profil']=="administrateur"){ ?>
-            <th> Supprimer </th>
-            <th> Modifier </th>
-            <?php } ?>
-            <th> Consulter </th>
-        </tr>
-    </tfoot>
-    <tbody>
-    <!-- LECTURE DE LA BDD -->
-        <?php
-            
-        
-                if (isset ($_GET["action"]) && $_GET["action"]=="consulter" && 
-                    isset($_GET['noemp']) && !empty($_GET['noemp'])){
-
-                       //CONSULTATION
-                       $data=researchNE($_GET['noemp']);
-                        
-                        foreach ($data as $key => $n){
-                            if($_SESSION['profil']=='utilisateur' && !($key=='sal' || $key=='comm')){
-                                echo "<td>$n</td>";
-                            }elseif($_SESSION['profil']=='administrateur'){
-                                echo "<td>$n</td>";
-                            }
-                        }
-                }
-                else {
-             
-                    $data=research();
-            
-            
-                    foreach ($data as $key => $value) {
-                        echo"<tr>";
+    <!-- afficher tableau -->
+    
+        <table class="table stripped table-hover">
+            <thead class="thead-light table-bordered" >
+                <tr>
+                    <th> N° Employé </th>
+                    <th> Nom </th>
+                    <th> Prénom </th>
+                    <th> Emploi </th>
+                    <th> Supérieur </th>
+                    <th> Embauche </th>
+                    <?php if ($_SESSION['profil']=="administrateur"){ ?>
+                    <th> Salaire </th>
+                    <th> Commission</th>
+                    <?php } ?>
+                    <th> N° Service </th>
+                    <?php if ($_SESSION['profil']=="administrateur"){ ?>
+                    <th> Supprimer </th>
+                    <th> Modifier </th>
+                    <?php } ?>
+                    <?php if (empty($_GET) || (isset($_GET['action']) && $_GET['action']!='consulter')){ ?>
+                    <th> Consulter</th>
+                    <?php }?>
+                </tr>
+            </thead>
+            <tfoot class="thead-light table-bordered" >
+                <tr>
+                    <th> N° Employé </th>
+                    <th> Nom </th>
+                    <th> Prénom </th>
+                    <th> Emploi </th>
+                    <th> Supérieur </th>
+                    <th> Embauche </th>
+                    <?php if ($_SESSION['profil']=="administrateur"){ ?>
+                    <th> Salaire </th>
+                    <th> Commission</th>
+                    <?php } ?>
                     
-                    foreach ($value as $k=> $v) {
-                        if($_SESSION['profil']=='utilisateur' && !($k=='sal' || $k=='comm')){
-                            echo "<td>$v</td>";
-                        }elseif($_SESSION['profil']=='administrateur'){
-                            echo "<td>$v</td>";
-                        }
-                    }
+                    <th> N° Service </th>
+                    
+                    <?php if ($_SESSION['profil']=="administrateur"){ ?>
+                    <th> Supprimer </th>
+                    <th> Modifier </th>
+                    <?php } ?>
+                    <?php if (empty($_GET) || (isset($_GET['action']) && $_GET['action']!='consulter')){ ?>
+                    <th> Consulter </th>
+                    <?php }?>
+                </tr>
+            </tfoot>
+            <tbody>
+            <!-- LECTURE DE LA BDD -->
+                <?php
+                    
+                
+                        if (isset ($_GET["action"]) && $_GET["action"]=="consulter" && 
+                            isset($_GET['noemp']) && !empty($_GET['noemp'])){
 
-                    if ($_SESSION['profil']=="administrateur"){
-                        echo "<td>";
-                        
-                        // fontion qui recense les personnes ayant des subalternes (liste de noemp dans un tableau)
-                        $donnees=tridelete();
-                        $taille=count($donnees);
-                        
-                        $flag=false;
-
-                        for ($i=0; $i<$taille; $i++) {
-                            
-                            if ($value['noemp'] == $donnees[$i]['noemp']){
-                                $flag=true;
-                                break;
-                            } 
+                            //CONSULTATION
+                            $data=researchNE($_GET['noemp']);
+                                
+                                foreach ($data as $key => $n){
+                                    if($_SESSION['profil']=='utilisateur' && !($key=='sal' || $key=='comm')){
+                                        echo "<td>$n</td>";
+                                    }elseif($_SESSION['profil']=='administrateur'){
+                                        echo "<td>$n</td>";
+                                    }
+                                }
                         }
+                        else {
+                    
+                            $data=research();
+                    
+                    
+                            foreach ($data as $key => $value) {
+                                echo"<tr>";
                             
-                        if(!$flag){  
-                        ?>
-                                <a href='employes.php?action=delete&amp;noemp=<?php echo $value['noemp']?>'>
-                                <button class='btn btn-outline-danger' value='Remove'>Supprimer</button>
-                                </a>  
-                        <?php
-                            } 
-                            else {
-                        ?>      <p> Ne peut être supprimé.e </p> 
-                        <?php
-                            }   
-                            ?>
-                            </td>
-                            <td>
-                                <a href='formulaire.php?action=modifier&amp;noemp=<?php echo $value['noemp'] ?>'>
-                                <button class='btn btn-outline-success' value='Modify'>Modifier</button>
+                            foreach ($value as $k=> $v) {
+                                if($_SESSION['profil']=='utilisateur' && !($k=='sal' || $k=='comm')){
+                                    echo "<td>$v</td>";
+                                }elseif($_SESSION['profil']=='administrateur'){
+                                    echo "<td>$v</td>";
+                                }
+                            }
+
+                            if ($_SESSION['profil']=="administrateur"){
+                                echo "<td>";
+                                
+                                // fontion qui recense les personnes ayant des subalternes (liste de noemp dans un tableau)
+                                $donnees=tridelete();
+                                $taille=count($donnees);
+                                
+                                $flag=false;
+
+                                for ($i=0; $i<$taille; $i++) {
+                                    
+                                    if ($value['noemp'] == $donnees[$i]['noemp']){
+                                        $flag=true;
+                                        break;
+                                    } 
+                                }
+                                    
+                                if(!$flag){  
+                                ?>
+                                        <a href='employes.php?action=delete&amp;noemp=<?php echo $value['noemp']?>'>
+                                        <button class='btn btn-outline-danger' value='Remove'>Supprimer</button>
+                                        </a>  
+                                <?php
+                                    } 
+                                    else {
+                                ?>      <p> Ne peut être supprimé.e </p> 
+                                <?php
+                                    }   
+                                    ?>
+                                    </td>
+                                    <td>
+                                        <a href='formulaire.php?action=modifier&amp;noemp=<?php echo $value['noemp'] ?>'>
+                                        <button class='btn btn-outline-success' value='Modify'>Modifier</button>
+                                        </a> 
+                                    </td>
+                            <?php } ?>
+                                <td>
+                            
+                                <a href='employes.php?action=consulter&amp;noemp=<?php echo $value['noemp'] ?>'>
+                                <button class='btn btn-outline-info' value='Modify'>Consulter</button>
                                 </a> 
                             </td>
-                    <?php } ?>
-                        <td>
-                    
-                        <a href='employes.php?action=consulter&amp;noemp=<?php echo $value['noemp'] ?>'>
-                        <button class='btn btn-outline-info' value='Modify'>Consulter</button>
-                        </a> 
-                    </td>
-                </tr>
-            <?php
-            } 
-        }
-                ?>
-    </tbody>
-</table>
-
+                        </tr>
+                    <?php
+                    } 
+                }
+                        ?>
+            </tbody>
+        </table>
+    </div>
 </body>
 </html>
