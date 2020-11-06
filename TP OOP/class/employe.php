@@ -24,35 +24,35 @@ class Employe {
         return $this;
     }
 
-    public function getNom() : string{
+    public function getNom() : ?string{
         return $this->nom;
     }
 
-    public function setNom(string $newNom): self{
+    public function setNom(?string $newNom): self{
         $this->nom = $newNom;
         return $this;
     }
-    public function getPrenom() : string{
+    public function getPrenom() : ?string{
         return $this->prenom;
     }
 
-    public function setPrenom(string $newPrenom): self{
+    public function setPrenom(?string $newPrenom): self{
         $this->prenom = $newPrenom;
         return $this;
     }
-    public function getEmploi() : string{
+    public function getEmploi() : ?string{
         return $this->emploi;
     }
 
-    public function setEmploi(string $newEmploi): self{
+    public function setEmploi(?string $newEmploi): self{
         $this->emploi = $newEmploi;
         return $this;
     }
-    public function getEmbauche() : string{
+    public function getEmbauche() : ?string{
         return $this->embauche;
     }
 
-    public function setEmbauche(string $newEmbauche): self{
+    public function setEmbauche(?string $newEmbauche): self{
         $this->embauche = $newEmbauche;
         return $this;
     }

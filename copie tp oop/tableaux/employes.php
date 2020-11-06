@@ -1,8 +1,6 @@
 <?php
 session_start();
 
-include_once('../class/Employe.php');
-
 if (!$_SESSION){
     header('Location: ../connexion.php');
 }
@@ -38,80 +36,30 @@ if (!$_SESSION){
     <?php 
 
         include 'crudE.php';
+   
+         // AJOUTER
+        if (isset($_GET['action']) && $_GET['action']=="ajout" &&
+            isset($_POST['noemp']) && !empty($_POST['noemp'])){ 
+                                        
+                    add($_POST['noemp'],$_POST['nom'], $_POST['prenom'],$_POST['emploi'],$_POST['embauche'],$_POST['sal'],$_POST['comm'],$_POST['sup'],$_POST['noserv'],$_POST['noproj']);
+                    
+        } 
 
-            // AJOUTER
-            if (isset($_GET['action']) && $_GET['action']=="ajout" &&
-                isset($_POST['noemp']) && !empty($_POST['noemp'])){ 
+        // SUPPRIMER
+        elseif (isset($_GET["action"]) && $_GET["action"]=="delete" && 
+                isset($_GET['noemp'])){                 
 
-                    $noemp=$_POST['noemp'];
-                    $nom=$_POST['nom']? $_POST['nom'] : NULL;
-                    $prenom=$_POST['prenom']? $_POST['prenom'] : NULL;
-                    $emploi=$_POST['emploi']? $_POST['emploi'] : NULL;
-                    $sup=$_POST['sup']? $_POST['sup'] : NULL;
-                    $embauche=$_POST['embauche']? $_POST['embauche'] : NULL;
-                    $sal=$_POST['sal']? $$_POST['sal'] : NULL;
-                    $comm=$_POST['comm']? $_POST['comm'] : NULL;
-                    $noserv=$_POST['noserv']? $_POST['noserv'] : NULL;
-                        
+                    delete($_GET['noemp']);
+        }
 
-                    $emp= new Employe();
-                    $emp->setNoemp($noemp)->setNom($nom)->setPrenom($prenom)->setEmploi($emploi)->setSup($sup)->setEmbauche($embauche)->setSal($sal)->setComm($comm)->setNoServ($noserv);
-                    $rs=add($emp);
+        // MODIFIER
+        elseif (isset($_GET["action"]) && $_GET["action"]=="modifier" && 
+                isset($_POST['noemp']) && !empty($_POST['noemp'])){
 
-                    if ($rs){ ?>
-                        <div class="alert alert-success col-6 offset-3 mt-2 m3-2" role="alert">
-                            <p class="text-center p-0 m-0"> L'employé.e n° <?php echo($_POST['noemp']) ?> a bien été ajouté.e </p>
-                        </div>
-                    <?php }else { ?>
-                        <div class="alert alert-danger col-6 offset-3 mt-2 m3-2" role="alert">
-                            <p class="text-center p-0 m-0"> Echec de l'ajout </p>
-                        </div>
-                    <?php }
-            } 
-
-            // SUPPRIMER
-            elseif (isset($_GET["action"]) && $_GET["action"]=="delete" && 
-                    isset($_GET['noemp'])){                 
-
-                        delete($_GET['noemp']); ?>
-
-                        <!-- message de succès -->
-                        <div class="alert alert-success col-6 offset-3 mt-2 m3-2" role="alert">
-                            <p class="text-center p-0 m-0"> L'employé.e n° <?php echo($_GET['noemp']) ?> a bien été supprimé.e </p>
-                        </div>
-            <?php
+                edit($_GET['noemp'],$_POST['nom'], $_POST['prenom'], $_POST['emploi'], $_POST['embauche'], $_POST['sal'], $_POST['comm'], $_POST['sup'], $_POST['noserv'], $_POST['noproj'] );
+                
             }
 
-            // MODIFIER
-            elseif (isset($_GET["action"]) && $_GET["action"]=="modifier" && 
-                    isset($_POST['noemp']) && !empty($_POST['noemp'])){
-
-                    $noemp=$_POST['noemp'];
-                    $nom=$_POST['nom']? $_POST['nom'] : NULL;
-                    $prenom=$_POST['prenom']? $_POST['prenom'] : NULL;
-                    $emploi=$_POST['emploi']? $_POST['emploi'] : NULL;
-                    $sup=$_POST['sup']? $_POST['sup'] : NULL;
-                    $embauche=$_POST['embauche']? $_POST['embauche'] : NULL;
-                    $sal=$_POST['sal']? $$_POST['sal'] : NULL;
-                    $comm=$_POST['comm']? $_POST['comm'] : NULL;
-                    $noserv=$_POST['noserv']? $_POST['noserv'] : NULL;
-
-                    $emp= new Employe();    
-                    $emp->setNoemp($_GET['noemp'])->setNom($nom)->setPrenom($prenom)->setEmploi($emploi)->setSup($sup)->setEmbauche($embauche)->setSal($sal)->setComm($comm)->setNoServ($noserv);
-                    
-                    $rs=edit($emp);
-                    
-                    //affichage réussite ou échec de l'action
-                    if ($rs){ ?>
-                        <div class="alert alert-success col-6 offset-3 mt-2 m3-2" role="alert">
-                            <p class="text-center p-0 m-0">  Les modifications ont bien été enregistrées . </p>
-                        </div>
-                    <?php }else { ?>
-                        <div class="alert alert-danger col-6 offset-3 mt-2 m3-2" role="alert">
-                            <p class="text-center p-0 m-0"> Echec des modifications </p>
-                        </div>
-                    <?php }
-                }
     ?>
 <!-- afficher tableau -->
 <table class="table stripped table-hover">
@@ -165,7 +113,7 @@ if (!$_SESSION){
                 if (isset ($_GET["action"]) && $_GET["action"]=="consulter" && 
                     isset($_GET['noemp']) && !empty($_GET['noemp'])){
 
-                       //CONSULTATION
+                       
                        $data=researchNE($_GET['noemp']);
                         
                         foreach ($data as $key => $n){

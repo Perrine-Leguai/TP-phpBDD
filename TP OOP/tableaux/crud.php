@@ -7,10 +7,9 @@ include 'connection.php';
 function add ($objet){
      $a=$objet->getNoserv();
      $b=$objet->getServ();
-     $b=$b? $b : NULL;
      $c=$objet->getVille();
-     $c=$c? $c : NULL;
-    
+     
+    //connexion à la bdd
     $db =connect();
     
     // on insère les nouvelles données
@@ -19,8 +18,10 @@ function add ($objet){
     $stmt->execute();
     $rs=$stmt->get_result();
 
+    //fermeture bdd
     $db->close();
     
+    //renvoi des données
     return $rs;
 }
 
@@ -29,12 +30,14 @@ function delete($a){
     $aa=$a;
 
     $db =connect();
+
     // on supprime les données
     $stmt=$db->prepare("DELETE FROM serv WHERE noserv=?");
     $stmt->bind_param('i', $aa);
     $stmt->execute();
     $rs=$stmt->get_result();
-               
+       
+    //fermeture bdd
     $db->close();
 
     return $rs;
@@ -44,18 +47,17 @@ function delete($a){
 function edit($objet){
     $a=$objet->getNoserv();
     $b=$objet->getServ();
-    $b=$b? $b : NULL;
     $c=$objet->getVille();
-    $c=$c? $c : NULL;
    
     $db =connect();
     
-    // MISE A JOUR DES DONNEES
+    // mise à jour bdd
     $stmt=$db->prepare("UPDATE serv SET serv=?, ville=? WHERE noserv=?");
     $stmt->bind_param('ssi',$b,$c, $a);
     $stmt->execute();
     $rs=$stmt->get_result();
 
+    //fermeture bdd
     $db->close();
                         
     return $rs;
@@ -66,11 +68,13 @@ function research(){
     
     $db =connect();
 
+    //récupérer les infos de la table serv
     $stmt=$db->prepare("SELECT * FROM serv");
     $stmt->execute();
     $rs=$stmt->get_result();
     $data = $rs->fetch_all(MYSQLI_ASSOC);
 
+    //libération des données & fermeture bdd
     $rs->free();
     $db->close();
 
@@ -84,23 +88,28 @@ function consult($a){
     
     $db =connect();
 
+    // récupérer les infos d'un service précisé
     $stmt=$db->prepare("SELECT * FROM serv WHERE noserv=?");
     $stmt->bind_param('i',$aa);
     $stmt->execute();
     $rs=$stmt->get_result();
     $data=$rs->fetch_array(MYSQLI_ASSOC);
     
+   //libération des données & fermeture bdd
     $rs->free();
     $db->close();
 
+    //envoi du résultat
     return $data;
     
 }
 
 
 function tridelete(){
-    
+    //ouverture bdd
     $db=connect();
+
+    //sélectionne les services où il y a des employés
     $stmt=$db->prepare("SELECT DISTINCT s.noserv FROM `serv` AS s
                         INNER JOIN `emp` AS e 
                         ON e.noserv= s.noserv
@@ -109,6 +118,11 @@ function tridelete(){
     $rs=$stmt->get_result();
     $donnees=$rs->fetch_all(MYSQLI_ASSOC);
   
+    //libération des données & fermeture bdd
+    $rs->free();
+    $db->close();
+
+    //envoi du résultat
     return $donnees;
     
 }

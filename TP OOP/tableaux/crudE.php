@@ -7,33 +7,23 @@ include_once('../class/Employe.php');
 function add ($objet){
     $a= $objet->getNoemp();
     $b=$objet->getNom();
-    $b= $b? $b : NULL;
     $c=$objet->getPrenom();
-    $c = $c? $c: NULL;
     $d=$objet->getEmploi();
-    $d= $d? $d : NULL;
     $e=$objet->getSup();
-    $e= $e? $e: NULL;
     $f=$objet->getEmbauche();
-    $f=$f? $f: NULL;
     $g=$objet->getSal();
-    $g=$g? $g : NULL;
     $h=$objet->getComm();
-    $h= $h? $h : NULL;
-    $i=$objet->getNoserv();
-    $i=$i? $i : NULL;  
+    $i=$objet->getNoserv(); 
 
     $db=connect();
     
     // on insère les nouvelles données
     $stmt=$db->prepare("INSERT INTO emp values (?,?,?,?,?,?,?,?,?)") ;
     $stmt->bind_param('isssisddi', $a, $b,$c, $d, $e, $f, $g, $h, $i);
-    $stmt->execute();
-    $rs=$stmt->get_result();
-    
-    return $rs;
+    $rs=$stmt->execute();
     
     $db->close();
+    return $rs;
 }
 
 //SUPPRIMER QUELQU'UN
@@ -57,37 +47,32 @@ function edit($objet){
 
     $a= $objet->getNoemp();
     $b=$objet->getNom();
-    $b= $b? $b : NULL;
     $c=$objet->getPrenom();
-    $c = $c? $c: NULL;
     $d=$objet->getEmploi();
-    $d= $d? $d : NULL;
     $e=$objet->getSup();
-    $e= $e? $e: NULL;
     $f=$objet->getEmbauche();
-    $f=$f? $f: NULL;
     $g=$objet->getSal();
-    $g=$g? $g : NULL;
     $h=$objet->getComm();
-    $h= $h? $h : NULL;
-    $i=$objet->getNoserv();
-    $i=$i? $i : NULL;  
+    $i=$objet->getNoserv(); 
     
     $db=connect();
     
-    // MISE A JOUR DES DONNEES
+    // mise à jour des données
     $stmt=$db->prepare("UPDATE emp SET nom=?, prenom=?, emploi=?, sup=?, embauche=?, sal=?, comm=?, noserv=? WHERE noemp=?");
     $stmt->bind_param('sssisddii',$b,$c, $d, $e, $f, $g, $h, $i, $a);
-    $stmt->execute();
+    $rs=$stmt->execute();
 
     $db->close();
-                        
+                   
+    return $rs;
 }
 
 //RECHERCHER DANS LA BDD
 function research(){
     
     $db= connect();
+
+    //récupère toute les données de la table emp
     $stmt=$db->prepare("SELECT * FROM emp");
     $stmt->execute();
     $rs=$stmt->get_result();
@@ -103,6 +88,7 @@ function research(){
 function researchNE($a){
     $db= connect();
 
+    //récupère les données d'un employé précisé
     $stmt=$db->prepare("SELECT * FROM emp WHERE noemp=?");
     $stmt->bind_param('i',$a);
     $stmt->execute();
@@ -120,6 +106,7 @@ function researchNE($a){
 function tridelete(){
     $db= connect();
     
+    //sélectionne les employés qui ont des subalternes
     $stmt=$db->prepare("SELECT DISTINCT noemp FROM `emp` WHERE noemp IN(SELECT DISTINCT sup FROM emp)");
     $stmt->execute();
     $rs=$stmt->get_result();
