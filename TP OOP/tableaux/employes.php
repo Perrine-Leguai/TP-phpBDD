@@ -1,6 +1,8 @@
 <?php
 session_start();
 
+include_once('../class/Employe.php');
+
 if (!$_SESSION){
     header('Location: ../connexion.php');
 }
@@ -14,18 +16,65 @@ if (!$_SESSION){
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
 </head>
 <body>
-    
-<a href="formulaire.php"><button type="button" class="btn btn-primary btn-lg" >Remplir le questionnaire</button></a>
+     
+            <div class="boutons col-10 offset-1 mt-3 mb-3 row">
+            <?php  ?>
+                
+                <?php if ($_SESSION['profil']=="administrateur"){ ?>
+                    <div class="  col-3 mb-1">
+                        <a href="formulaire.php"><button type="button" class="btn btn-outline-primary " >Ajouter un employé  +</button></a>
+                    </div>
+                <?php } ?>
+                
+                <div class=" <?php if(isset($_SESSION) && $_SESSION['profil']=="administrateur"){ echo"col-6 mb-1";} else {echo "col-9 mb-1";} ?>">
+                    <a href="cc-services.php" ><button name="employes" type="submit"  class="btn btn-primary "> SERVICES </button></a>
+                </div>
+                <div class=" col-3 mb-1">
+                    <a href="../traitement.php?p=deco" ><button name="connexion" type="submit"  class="btn btn-outline-secondary "> Se déconnecter  X </button></a>
+                </div>
+            </div>
+
+
     <?php 
 
         include 'crudE.php';
-   
+
+        $noemp=$_POST['noemp'];
+        $nom="'".$_POST['nom']."'";
+        $nom=$nom? $nom : NULL;
+        $prenom="'".$_POST['prenom']."'";
+        $prenom=$prenom? $prenom : NULL;
+        $emploi="'".$_POST['emploi']."'";
+        $emploi=$emploi? $emploi : NULL;
+        $sup=$_POST['sup'];
+        echo $sup;
+        $sup=$sup? $sup : NULL;
+        $embauche="'".$_POST['embauche']."'";
+        $embauche=$embauche? $embauche : NULL;
+        $sal=$_POST['sal'];
+        $sal=$sal? $sal : NULL;
+        $comm=$_POST['comm'];
+        $comm=$comm? $comm : NULL;
+        $noserv=$_POST['noserv'];
+        $noserv=$noserv? $noserv : NULL;
+
          // AJOUTER
         if (isset($_GET['action']) && $_GET['action']=="ajout" &&
             isset($_POST['noemp']) && !empty($_POST['noemp'])){ 
-                                        
-                    add($_POST['noemp'],$_POST['nom'], $_POST['prenom'],$_POST['emploi'],$_POST['embauche'],$_POST['sal'],$_POST['comm'],$_POST['sup'],$_POST['noserv'],$_POST['noproj']);
                     
+                $emp= new Employe();
+                $emp->setNoemp($noemp)->setNom($nom)->setPrenom($prenom)->setEmploi($emploi)->setSup($sup)->setEmbauche($embauche)->setSal($sal)->setComm($comm)->setNoServ($noserv);
+                $rs=add($emp);
+                var_dump($rs);
+                if ($rs){ ?>
+                    <div class="alert alert-success col-6 offset-3 mt-2 m3-2" role="alert">
+                        <p class="text-center p-0 m-0"> L'employé.e n° <?php echo($_POST['noemp']) ?> a bien été ajouté.e </p>
+                    </div>
+                <?php }else { ?>
+                    <div class="alert alert-danger col-6 offset-3 mt-2 m3-2" role="alert">
+                        <p class="text-center p-0 m-0"> Echec de l'ajout </p>
+                    </div>
+                <?php }
         } 
 
         // SUPPRIMER
@@ -39,7 +88,10 @@ if (!$_SESSION){
         elseif (isset($_GET["action"]) && $_GET["action"]=="modifier" && 
                 isset($_POST['noemp']) && !empty($_POST['noemp'])){
 
-                edit($_GET['noemp'],$_POST['nom'], $_POST['prenom'], $_POST['emploi'], $_POST['embauche'], $_POST['sal'], $_POST['comm'], $_POST['sup'], $_POST['noserv'], $_POST['noproj'] );
+                $emp= new Employe();    
+                $emp->setNoemp($_GET['noemp'])->setNom($nom)->setPrenom($prenom)->setEmploi($emploi)->setSup($sup)->setEmbauche($embauche)->setSal($sal)->setComm($comm)->setNoServ($noserv);
+                
+                edit($emp);
                 
             }
 
@@ -52,10 +104,12 @@ if (!$_SESSION){
             <th> Nom </th>
             <th> Prénom </th>
             <th> Emploi </th>
+            <th> Supérieur </th>
             <th> Embauche </th>
+            <?php if ($_SESSION['profil']=="administrateur"){ ?>
             <th> Salaire </th>
             <th> Commission </th>
-            <th> Supérieur </th>
+            <?php } ?>
             <th> N° Service </th>
             <?php if ($_SESSION['profil']=="administrateur"){ ?>
             <th> Supprimer </th>
@@ -70,10 +124,13 @@ if (!$_SESSION){
             <th> Nom </th>
             <th> Prénom </th>
             <th> Emploi </th>
+            <th> Supérieur </th>
             <th> Embauche </th>
+            <?php if ($_SESSION['profil']=="administrateur"){ ?>
             <th> Salaire </th>
             <th> Commission </th>
-            <th> Supérieur </th>
+            <?php } ?>
+            
             <th> N° Service </th>
             
             <?php if ($_SESSION['profil']=="administrateur"){ ?>
@@ -86,16 +143,20 @@ if (!$_SESSION){
     <tbody>
     <!-- LECTURE DE LA BDD -->
         <?php
-
+            
         
                 if (isset ($_GET["action"]) && $_GET["action"]=="consulter" && 
                     isset($_GET['noemp']) && !empty($_GET['noemp'])){
 
-                       
+                       //CONSULTATION
                        $data=researchNE($_GET['noemp']);
                         
                         foreach ($data as $key => $n){
-                            echo "<td>$n</td>";
+                            if($_SESSION['profil']=='utilisateur' && !($key=='sal' || $key=='comm')){
+                                echo "<td>$n</td>";
+                            }elseif($_SESSION['profil']=='administrateur'){
+                                echo "<td>$n</td>";
+                            }
                         }
                 }
                 else {
@@ -107,25 +168,31 @@ if (!$_SESSION){
                         echo"<tr>";
                     
                     foreach ($value as $k=> $v) {
-                        echo "<td>$v</td>";
+                        if($_SESSION['profil']=='utilisateur' && !($k=='sal' || $k=='comm')){
+                            echo "<td>$v</td>";
+                        }elseif($_SESSION['profil']=='administrateur'){
+                            echo "<td>$v</td>";
+                        }
                     }
-                    
-                    echo "<td>";
-                    // fontion qui recense les personnes ayant des subalternes (liste de noemp dans un tableau)
-                    $donnees=tridelete();
-                    $taille=count($donnees);
-                    
-                    $flag=false;
 
-                    for ($i=0; $i<$taille; $i++) {
+                    if ($_SESSION['profil']=="administrateur"){
+                        echo "<td>";
                         
-                        if ($value['noemp'] == $donnees[$i]['noemp']){
-                            $flag=true;
-                            break;
-                        } 
-                    }
-                        if ($_SESSION['profil']=="administrateur"){
-                            if(!$flag){  
+                        // fontion qui recense les personnes ayant des subalternes (liste de noemp dans un tableau)
+                        $donnees=tridelete();
+                        $taille=count($donnees);
+                        
+                        $flag=false;
+
+                        for ($i=0; $i<$taille; $i++) {
+                            
+                            if ($value['noemp'] == $donnees[$i]['noemp']){
+                                $flag=true;
+                                break;
+                            } 
+                        }
+                            
+                        if(!$flag){  
                         ?>
                                 <a href='employes.php?action=delete&amp;noemp=<?php echo $value['noemp']?>'>
                                 <button class='btn btn-outline-danger' value='Remove'>Supprimer</button>
@@ -133,24 +200,23 @@ if (!$_SESSION){
                         <?php
                             } 
                             else {
-                        ?>      <p> Ne peut être supprimé.e </p> <?php
-                            }
-                        
-                                
+                        ?>      <p> Ne peut être supprimé.e </p> 
+                        <?php
+                            }   
                             ?>
                             </td>
-                        
                             <td>
                                 <a href='formulaire.php?action=modifier&amp;noemp=<?php echo $value['noemp'] ?>'>
                                 <button class='btn btn-outline-success' value='Modify'>Modifier</button>
                                 </a> 
                             </td>
-                            <?php } ?>
+                    <?php } ?>
                         <td>
-                            <a href='employes.php?action=consulter&amp;noemp=<?php echo $value['noemp'] ?>'>
-                            <button class='btn btn-outline-info' value='Modify'>Consulter</button>
-                            </a> 
-                        </td>
+                    
+                        <a href='employes.php?action=consulter&amp;noemp=<?php echo $value['noemp'] ?>'>
+                        <button class='btn btn-outline-info' value='Modify'>Consulter</button>
+                        </a> 
+                    </td>
                 </tr>
             <?php
             } 

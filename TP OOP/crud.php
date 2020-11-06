@@ -1,8 +1,8 @@
 <?php
-
+include_once('tableaux/connection.php');
 function insertUser($email, $mdp, $profil){
-        $db = new mysqli('localhost','perrine.leguai','Mysql2020','gestion_employes');  
-        
+          
+        $db=connect();
         $stmt= $db->prepare("INSERT INTO `user_oop` (`id`, `email`,`mdp`, `profil`) VALUES (null,?,?,?)");
         $stmt->bind_param('sss', $email, $mdp, $profil);
     
@@ -13,7 +13,7 @@ function insertUser($email, $mdp, $profil){
             header('Location: connexion.php');
 
         } else{
-            echo "Query error. \n";
+            header('Location: inscription.php?p=bug');
         }
 
         // $rs->free(); que pour le select
@@ -33,9 +33,8 @@ if (password_verify($mdp, $hash)) {
 
 
 function searchUserMail(string $email){
-    //connection
-    $db= new mysqli("localhost","perrine.leguai","Mysql2020",'gestion_employes');
-
+    //connexion déjà établie  
+    $db=connect();
     
     //requete SQL
     $stmt=$db->prepare("SELECT * FROM `user_oop` WHERE email=?");

@@ -1,70 +1,97 @@
 <!-- contient la fonction addEmploye -->
 <?php
 
-include 'connexion.php';
-function add ($a, $b, $c){
-    $aa=$a;
-    $bb=$b? "'".$b."'" : 'NULL';
-    $cc=$c? "'".$c."'": 'NULL';
+include 'connection.php';
+
+// AJOUTER QUELQU'UN
+function add ($objet){
+     $a=$objet->getNoserv();
+     $b=$objet->getServ();
+     $b=$b? $b : NULL;
+     $c=$objet->getVille();
+     $c=$c? $c : NULL;
     
     $db =connect();
     
     // on insère les nouvelles données
-    $rs =  "insert into serv values ($aa, $bb,$cc)" ;
-                    
-    $tab =mysqli_query($db, $rs);
-    return $tab;
+    $stmt=$db->prepare("INSERT INTO serv values (?,?,?)") ;
+    $stmt->bind_param('iss', $a, $b, $c);
+    $stmt->execute();
+    $rs=$stmt->get_result();
+
+    $db->close();
+    
+    return $rs;
 }
 
+//SUPPRIMER QUELQU'UN
 function delete($a){
     $aa=$a;
 
     $db =connect();
     // on supprime les données
-    $rs =  "delete from serv where noserv=$aa " ;
-                        
-    $tab =mysqli_query($db, $rs);
-    return $tab;
+    $stmt=$db->prepare("DELETE FROM serv WHERE noserv=?");
+    $stmt->bind_param('i', $aa);
+    $stmt->execute();
+    $rs=$stmt->get_result();
+               
+    $db->close();
+
+    return $rs;
 }
 
-
-function edit($a, $b, $c){
-    $aa=$a;
-    $bb=$b ? "'".$b."'" : 'NULL';
-    $cc=$c? "'".$c."'": 'NULL';
+//MODIFIER DES DONNEES
+function edit($objet){
+    $a=$objet->getNoserv();
+    $b=$objet->getServ();
+    $b=$b? $b : NULL;
+    $c=$objet->getVille();
+    $c=$c? $c : NULL;
    
     $db =connect();
     
     // MISE A JOUR DES DONNEES
-    $rs =  " update serv set serv=$bb, ville=$cc where noserv=$aa";                  
+    $stmt=$db->prepare("UPDATE serv SET serv=?, ville=? WHERE noserv=?");
+    $stmt->bind_param('ssi',$b,$c, $a);
+    $stmt->execute();
+    $rs=$stmt->get_result();
 
-    $tab =mysqli_query($db, $rs);
-    return $tab;
+    $db->close();
+                        
+    return $rs;
 }
 
+//RECHERCHER DANS LA BDD
 function research(){
     
     $db =connect();
 
-    $rs = mysqli_query ($db, 'select * from serv');
-    $data = mysqli_fetch_all ($rs, MYSQLI_ASSOC);
-    mysqli_free_result($rs);
-    mysqli_close($db);
+    $stmt=$db->prepare("SELECT * FROM serv");
+    $stmt->execute();
+    $rs=$stmt->get_result();
+    $data = $rs->fetch_all(MYSQLI_ASSOC);
+
+    $rs->free();
+    $db->close();
 
     return $data;
 
 }
     
-
+//RECHERCHE POUR LA CONSULTATION
 function consult($a){
     $aa=$a;
     
     $db =connect();
 
-    $rs = mysqli_query ($db, "select * from serv where noserv='$aa'");
-    $data=mysqli_fetch_array($rs, MYSQLI_ASSOC);
-    mysqli_free_result($rs);
-    mysqli_close($db);
+    $stmt=$db->prepare("SELECT * FROM serv WHERE noserv=?");
+    $stmt->bind_param('i',$aa);
+    $stmt->execute();
+    $rs=$stmt->get_result();
+    $data=$rs->fetch_array(MYSQLI_ASSOC);
+    
+    $rs->free();
+    $db->close();
 
     return $data;
     
@@ -74,11 +101,13 @@ function consult($a){
 function tridelete(){
     
     $db=connect();
-    $rs= mysqli_query ($db, "select distinct s.noserv from `serv` as s
-                                inner join `emp` as e 
-                                on e.noserv= S.noserv
-                                where e.noserv in (select distinct e.noserv from `emp` as e)");
-    $donnees=mysqli_fetch_all($rs, MYSQLI_ASSOC);
+    $stmt=$db->prepare("SELECT DISTINCT s.noserv FROM `serv` AS s
+                        INNER JOIN `emp` AS e 
+                        ON e.noserv= s.noserv
+                        WHERE e.noserv IN (SELECT DISTINCT e.noserv FROM `emp` AS e)");
+    $stmt->execute();
+    $rs=$stmt->get_result();
+    $donnees=$rs->fetch_all(MYSQLI_ASSOC);
   
     return $donnees;
     

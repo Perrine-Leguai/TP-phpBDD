@@ -99,12 +99,7 @@
                                                 <div><input type="number" name="noserv" id ="noserv" placeholder="ex: 4 " value="<?php if ($action =='modifier'){ echo $data['noserv']; }?>"></div>
                                             </div>
 
-                                            <!-- N° PROJET -->
-                                            <div class=" row justify-content-md-center col-12 m-2 ">        
-                                                <div clas="p-1"><label for="noproj"> N° projet : </label></div>
-                                                <div><input type="number" name="noproj" id="noproj" placeholder="ex: 103 " value="<?php if ($action =='modifier'){ echo $data['noproj']; }?>"></div>
-                                            </div>
-
+                                            
                                             <!-- BOUTON -->
                                             <div class=" row justify-content-md-center col-4 m-4">
                                                 <button type="submit"  class="btn btn-primary "> <?php if ($action == "modifier"){ echo ("Modifier") ;} else{ echo "Ajouter" ;}?></button>
