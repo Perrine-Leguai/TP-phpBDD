@@ -29,7 +29,7 @@
                                 <p class="text-center p-0 m-0"> Un compte est déjà relié à ce mail </p>
                             </div>
                             <?php } ?>
-                                <form action="traitement.php?action=ajout"  method="POST">
+                                <form action="service/traitementService.php?action=ajout"  method="POST">
                                         <div class=" justify-content-md-center">
                                            
                                             <!-- NOM & PRENOM -->
@@ -51,7 +51,7 @@
                                             </div>
 
                                             <div class="  justify-content-md-center col-10 offset-1 mt-5">
-                                                <p class="text-primary "> Vous avez déjà un compte et souhaitez vous <a href="connexion.php"> <span class="badge badge-pill badge-primary">connecter</span> </a> ? </p> 
+                                                <p class="text-primary "> Vous avez déjà un compte et souhaitez vous <a href="../connexion.php"> <span class="badge badge-pill badge-primary">connecter</span> </a> ? </p> 
                                             </div>
 
                                         </div>

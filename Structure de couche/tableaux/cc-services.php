@@ -36,12 +36,12 @@ if (!$_SESSION){
                     <a href="employes.php" ><button name="employes" type="submit"  class="btn btn-primary "> EMPLOYES </button></a>
                 </div>
                 <div class=" col-3 mb-1">
-                    <a href="../traitement.php?p=deco" ><button name="deconnexion" type="submit"  class="btn btn-outline-secondary "> Se déconnecter  X </button></a>
+                    <a href="../service/traitementService.php?p=deco" ><button name="deconnexion" type="submit"  class="btn btn-outline-secondary "> Se déconnecter  X </button></a>
                 </div>
         </div>
         <?php 
 
-        include 'crud.php';    
+        include_once '../dao/ServicesMysqliDao.php';    
                
 
             // ajouter
@@ -54,7 +54,7 @@ if (!$_SESSION){
 
                         $service = new Service();
                         $service->setNoserv($noserv)->setServ($serv)->setVille($ville);
-                        $rs=add($service); 
+                        $rs= ServicesMysqliDao :: add($service); 
                         
                         /* affiche un message en cas d'échec ou de réussite de l'ajout*/
                         if ($rs){ ?>
@@ -73,7 +73,7 @@ if (!$_SESSION){
             elseif (isset($_GET['action']) && $_GET["action"]=="delete" && 
                     isset($_GET['noserv'])){
 
-                        delete($_GET['noserv']); ?>
+                        ServicesMysqliDao :: delete($_GET['noserv']); ?>
 
                         <!-- message de succès -->
                         <div class="alert alert-success col-6 offset-3 mt-2 m3-2" role="alert">
@@ -93,7 +93,7 @@ if (!$_SESSION){
 
                         $service = new Service();
                         $service->setNoserv($noserv)->setServ($serv)->setVille($ville);
-                        $rs=edit($service);
+                        $rs= ServicesMysqliDao :: edit($service);
 
                         //affichage réussite ou échec de l'action
                         if ($rs){ ?>
@@ -136,7 +136,7 @@ if (!$_SESSION){
                     isset($_GET['noserv']) && !empty($_GET['noserv'])){
 
                         //CONSULTATION
-                        $data=consult($_GET['noserv']);
+                        $data= ServicesMysqliDao ::consult($_GET['noserv']);
 
                         foreach ($data as $key => $n){
                             echo "<td>$n</td>";
@@ -144,7 +144,7 @@ if (!$_SESSION){
                 }
                 else {
                     
-                    $data=research();
+                    $data= ServicesMysqliDao :: research();
                     
                     foreach ($data as $key => $value) {
                         echo"<tr>";
@@ -157,7 +157,7 @@ if (!$_SESSION){
                     if ($_SESSION['profil']=="administrateur"){
                         echo "<td>";
                         // fonction qui recense les services ayant des salariés
-                        $donnees=tridelete();
+                        $donnees= ServicesMysqliDao :: tridelete();
                         $taille=count($donnees);
                         
 

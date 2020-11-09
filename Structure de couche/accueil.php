@@ -1,7 +1,7 @@
 <?php
 
-include_once('crud.php');
-include_once('traitement.php');
+include('dao/UserMysqliDao.php');
+include('service/traitementService.php');
  
 if (!isset($_SESSION['mailUser'])){
     header('Location: connexion.php');

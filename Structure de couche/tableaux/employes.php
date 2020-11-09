@@ -37,7 +37,7 @@ if (!$_SESSION){
             <a href="cc-services.php" ><button name="employes" type="submit"  class="btn btn-primary "> SERVICES </button></a>
         </div>
         <div class=" col-3 mb-1 text-right">
-            <a href="../traitement.php?p=deco" ><button name="connexion" type="submit"  class="btn btn-outline-secondary "> Se déconnecter  X </button></a>
+            <a href="../service/traitementService.php?p=deco" ><button name="connexion" type="submit"  class="btn btn-outline-secondary "> Se déconnecter  X </button></a>
         </div>
 
     </div>
@@ -45,7 +45,7 @@ if (!$_SESSION){
 
     <?php 
 
-        include 'crudE.php';
+        include_once('../dao/EmployesMysqliDao.php.php');
 
             // AJOUTER
             if (isset($_GET['action']) && $_GET['action']=="ajout" &&
@@ -64,7 +64,7 @@ if (!$_SESSION){
 
                     $emp= new Employe();
                     $emp->setNoemp($noemp)->setNom($nom)->setPrenom($prenom)->setEmploi($emploi)->setSup($sup)->setEmbauche($embauche)->setSal($sal)->setComm($comm)->setNoServ($noserv);
-                    $rs=add($emp);
+                    $rs= EmployesMysqliDao :: add($emp);
 
                     if ($rs){ ?>
                         <div class="alert alert-success col-6 offset-3 mt-2 m3-2" role="alert">
@@ -81,7 +81,7 @@ if (!$_SESSION){
             elseif (isset($_GET["action"]) && $_GET["action"]=="delete" && 
                     isset($_GET['noemp'])){                 
 
-                        delete($_GET['noemp']); ?>
+                        EmployesMysqliDao :: delete($_GET['noemp']); ?>
 
                         <!-- message de succès -->
                         <div class="alert alert-success col-6 offset-3 mt-2 m3-2" role="alert">
@@ -107,7 +107,7 @@ if (!$_SESSION){
                     $emp= new Employe();    
                     $emp->setNoemp($_GET['noemp'])->setNom($nom)->setPrenom($prenom)->setEmploi($emploi)->setSup($sup)->setEmbauche($embauche)->setSal($sal)->setComm($comm)->setNoServ($noserv);
                     
-                    $rs=edit($emp);
+                    $rs= EmployesMysqliDao ::  edit($emp);
                     
                     //affichage réussite ou échec de l'action
                     if ($rs){ ?>
@@ -179,7 +179,7 @@ if (!$_SESSION){
                             isset($_GET['noemp']) && !empty($_GET['noemp'])){
 
                             //CONSULTATION
-                            $data=researchNE($_GET['noemp']);
+                            $data= EmployesMysqliDao :: researchNE($_GET['noemp']);
                                 
                                 foreach ($data as $key => $n){
                                     if($_SESSION['profil']=='utilisateur' && !($key=='sal' || $key=='comm')){
@@ -191,7 +191,7 @@ if (!$_SESSION){
                         }
                         else {
                     
-                            $data=research();
+                            $data= EmployesMysqliDao :: research();
                     
                     
                             foreach ($data as $key => $value) {
@@ -209,7 +209,7 @@ if (!$_SESSION){
                                 echo "<td>";
                                 
                                 // fontion qui recense les personnes ayant des subalternes (liste de noemp dans un tableau)
-                                $donnees=tridelete();
+                                $donnees= EmployesMysqliDao ::  tridelete();
                                 $taille=count($donnees);
                                 
                                 $flag=false;

@@ -1,6 +1,6 @@
 <?php
 session_start();
-include_once('crud.php');
+include('../dao/UserMysqliDao.php');
 
         
 //ajoute dans la BDD
@@ -10,7 +10,7 @@ if (isset($_GET['action']) && $_GET['action']=="ajout" &&
         // hash le mdp
         $hash= PASSWORD_HASH($_POST['mdp'], PASSWORD_DEFAULT);
         // insert un nouvel utilisateur
-        insertUser($_POST['email'], $hash , 'utilisateur');
+        UserMysqliDao :: insertUser($_POST['email'], $hash , 'utilisateur');
         
     }
 
@@ -19,9 +19,11 @@ elseif(isset($_GET['action']) && $_GET['action']=="connect" &&
     isset ($_POST['email']) && !empty($_POST['email'])) {
         
         //recherche l'utilisateur
-        $data= searchUserMail($_POST['email']);
+        
+
+        $data= UserMysqliDao ::searchUserMail($_POST['email']);
         if (!$data ){
-            header('Location: connexion.php?p=nomail');
+            header('Location: ../connexion.php?p=nomail');
        
         }
 
@@ -35,17 +37,17 @@ elseif(isset($_GET['action']) && $_GET['action']=="connect" &&
 
                 $_SESSION['mailUser']= $_POST['email'];
                 $_SESSION['profil']=$data['profil'];
-                header('Location: accueil.php');
+                header('Location: ../accueil.php');
             }else {
             
-                header('Location: connexion.php?p=nomdp');
+                header('Location: ../connexion.php?p=nomdp');
             }
         } 
     }
 
 elseif (isset($_GET['p'])  &&  $_GET['p']=="deco") {
     session_destroy();
-    header('Location: connexion.php');
+    header('Location: ../connexion.php');
 }
 
 ?>
