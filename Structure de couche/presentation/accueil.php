@@ -1,7 +1,9 @@
 <?php
 
-include('dao/UserMysqliDao.php');
-include('service/traitementService.php');
+
+
+include_once(__DIR__ .'/../controler/userControler.php');
+
  
 if (!isset($_SESSION['mailUser'])){
     header('Location: connexion.php');

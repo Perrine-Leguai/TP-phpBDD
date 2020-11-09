@@ -1,24 +1,17 @@
 <?php
-include('ParentMysqliDao.php');
+include_once(__DIR__ . '/ParentMysqliDao.php');
+
 class UserMysqliDao extends ParentMysqliDao {
+
     public static function insertUser($email, $mdp, $profil){
             
             $db=parent :: connect();
             $stmt= $db->prepare("INSERT INTO `user_oop` (`id`, `email`,`mdp`, `profil`) VALUES (null,?,?,?)");
             $stmt->bind_param('sss', $email, $mdp, $profil);
+            $rs=$stmt->execute();
         
-
-            if ($stmt->execute()) {
-                echo "Query executed. \n";
-                //renvoie à l'ajout
-                header('Location: connexion.php');
-
-            } else{
-                header('Location: inscription.php?p=bug');
-            }
-
-            // $rs->free(); que pour le select
             $db->close();
+            return $rs;
     }
 
     public static function verif($mdp, $hash){
@@ -34,7 +27,7 @@ class UserMysqliDao extends ParentMysqliDao {
 
 
     public static function searchUserMail(string $email){
-        //connexion déjà établie  
+        //../presentation/connexion déjà établie  
         $db= parent :: connect();
         
         //requete SQL
@@ -43,11 +36,13 @@ class UserMysqliDao extends ParentMysqliDao {
         $stmt->execute(); //renvoie un booléen;
         $rs=$stmt->get_result(); //récupère l'objet contenant id, email, mdp, profil
         $data=$rs->fetch_array(MYSQLI_ASSOC); //le met en tableau
-        return $data;
+        
         
         //libération des resultats et de la connexion
         $rs->free();  //libération possible car select
         $db->close(); 
+
+        return $data;
         
     }
 

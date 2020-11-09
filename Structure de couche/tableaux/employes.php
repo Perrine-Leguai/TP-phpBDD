@@ -45,26 +45,15 @@ if (!$_SESSION){
 
     <?php 
 
-        include_once('../dao/EmployesMysqliDao.php.php');
+        include_once '../dao/EmployesMysqliDao.php';
 
             // AJOUTER
-            if (isset($_GET['action']) && $_GET['action']=="ajout" &&
-                isset($_POST['noemp']) && !empty($_POST['noemp'])){ 
+             
 
-                    $noemp=$_POST['noemp'];
-                    $nom=$_POST['nom']? $_POST['nom'] : NULL;
-                    $prenom=$_POST['prenom']? $_POST['prenom'] : NULL;
-                    $emploi=$_POST['emploi']? $_POST['emploi'] : NULL;
-                    $sup=$_POST['sup']? $_POST['sup'] : NULL;
-                    $embauche=$_POST['embauche']? $_POST['embauche'] : NULL;
-                    $sal=$_POST['sal']? $$_POST['sal'] : NULL;
-                    $comm=$_POST['comm']? $_POST['comm'] : NULL;
-                    $noserv=$_POST['noserv']? $_POST['noserv'] : NULL;
+                    
                         
 
-                    $emp= new Employe();
-                    $emp->setNoemp($noemp)->setNom($nom)->setPrenom($prenom)->setEmploi($emploi)->setSup($sup)->setEmbauche($embauche)->setSal($sal)->setComm($comm)->setNoServ($noserv);
-                    $rs= EmployesMysqliDao :: add($emp);
+                    
 
                     if ($rs){ ?>
                         <div class="alert alert-success col-6 offset-3 mt-2 m3-2" role="alert">
@@ -106,7 +95,6 @@ if (!$_SESSION){
 
                     $emp= new Employe();    
                     $emp->setNoemp($_GET['noemp'])->setNom($nom)->setPrenom($prenom)->setEmploi($emploi)->setSup($sup)->setEmbauche($embauche)->setSal($sal)->setComm($comm)->setNoServ($noserv);
-                    
                     $rs= EmployesMysqliDao ::  edit($emp);
                     
                     //affichage réussite ou échec de l'action

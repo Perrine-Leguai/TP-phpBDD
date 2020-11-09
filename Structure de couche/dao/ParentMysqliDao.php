@@ -1,7 +1,7 @@
 <?php 
 class ParentMysqliDao {
     
-    public function connect (){
+    public static function connect (){
 
         $db = new mysqli('localhost','perrine.leguai','Mysql2020','gestion_employes');
         

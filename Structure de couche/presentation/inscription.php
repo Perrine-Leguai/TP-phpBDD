@@ -29,7 +29,7 @@
                                 <p class="text-center p-0 m-0"> Un compte est déjà relié à ce mail </p>
                             </div>
                             <?php } ?>
-                                <form action="service/traitementService.php?action=ajout"  method="POST">
+                                <form action="../controler/userControler.php?action=ajout"  method="POST">
                                         <div class=" justify-content-md-center">
                                            
                                             <!-- NOM & PRENOM -->

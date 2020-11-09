@@ -34,7 +34,7 @@
                                         <p class="text-center p-0 m-0"> Mot de passe invalide </p>
                                     </div>
                                 <?php } ?>
-                                <form action="service/traitementService.php?action=connect"  method="POST">
+                                <form action="../controler/userControler.php?action=connect"  method="POST">
                                         <div class="row justify-content-md-center">
                                            
                                             <!-- MAIL & PASSWORD-->
