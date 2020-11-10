@@ -1,6 +1,10 @@
 <?php
 
-include_once('../service/EmployesService.php');
+include_once(__DIR__ .'/../service/EmployesService.php');
+include_once(__DIR__ . '/../presentation/employepres.php ');
+
+
+
 
     // ajouter
             if (isset($_GET['action']) && $_GET['action']=="ajout" &&
@@ -12,41 +16,37 @@ include_once('../service/EmployesService.php');
                     $emploi=$_POST['emploi']? $_POST['emploi'] : NULL;
                     $sup=$_POST['sup']? $_POST['sup'] : NULL;
                     $embauche=$_POST['embauche']? $_POST['embauche'] : NULL;
-                    $sal=$_POST['sal']? $$_POST['sal'] : NULL;
+                    $sal=$_POST['sal']? $_POST['sal'] : NULL;
                     $comm=$_POST['comm']? $_POST['comm'] : NULL;
-                    $noemp=$_POST['noemp']? $_POST['noemp'] : NULL;
+                    $noserv=$_POST['noserv']? $_POST['noserv'] : NULL;
 
-                    $rs= EmployesService :: addEmp($noemp, $nom, $prenom, $emploi, $sup, $embauche, $sal, $comm, $noserv);
+                    $rs=EmployesService :: addEmp($noemp, $nom, $prenom, $emploi, $sup, $embauche, $sal, $comm, $noserv);
                     
                     /* affiche un message en cas d'échec ou de réussite de l'ajout*/
-                    if ($rs){ ?>
-                        <div class="alert alert-success col-6 offset-3 mt-2 m3-2" role="alert">
-                            <p class="text-center p-0 m-0"> Le service n° <?php echo($_POST['noemp']) ?> a bien été ajouté . </p>
-                        </div>
-                    <?php }else { ?>
-                        <div class="alert alert-danger col-6 offset-3 mt-2 m3-2" role="alert">
-                            <p class="text-center p-0 m-0"> Echec de l'ajout </p>
-                        </div>
-                    <?php }
+                    
+                    html();
+                    afficherMess($rs,$_POST['noemp']);
+                    
+                    
+                    
                 }
         
     
     // supprimer
-    elseif (isset($_GET['action']) && $_GET['action']=="ajout" &&
-            isset($_POST['noemp']) && !empty($_POST['noemp'])){
+    elseif (isset($_GET['action']) && $_GET['action']=="delete" &&
+            isset($_GET['noemp']) && !empty($_GET['noemp'])){
 
-                EmployesService:: deleteEmp($_GET['noemp']); ?>
+                $rs=EmployesService:: deleteEmp($_GET['noemp']);
 
-                <!-- message de succès -->
-                <div class="alert alert-success col-6 offset-3 mt-2 m3-2" role="alert">
-                    <p class="text-center p-0 m-0"> Le service n° <?php echo($_GET['noemp']) ?> a bien été supprimé . </p>
-                </div>
-    <?php
+                html();
+                afficherMessDel($rs, $_GET['noemp']);
+                
+    
     }
 
     
     //modifier
-    elseif (isset($_GET['action']) && $_GET['action']=="ajout" &&
+    elseif (isset($_GET['action']) && $_GET['action']=="modifier" &&
             isset($_POST['noemp']) && !empty($_POST['noemp'])){
 
                 $noemp=$_GET['noemp'];
@@ -55,23 +55,41 @@ include_once('../service/EmployesService.php');
                 $emploi=$_POST['emploi']? $_POST['emploi'] : NULL;
                 $sup=$_POST['sup']? $_POST['sup'] : NULL;
                 $embauche=$_POST['embauche']? $_POST['embauche'] : NULL;
-                $sal=$_POST['sal']? $$_POST['sal'] : NULL;
+                $sal=$_POST['sal']? $_POST['sal'] : NULL;
                 $comm=$_POST['comm']? $_POST['comm'] : NULL;
-                $noemp=$_POST['noemp']? $_POST['noemp'] : NULL;
+                $noserv=$_POST['noserv']? $_POST['noserv'] : NULL;
 
                 $rs = EmployesService :: modifEmp($noemp, $nom, $prenom, $emploi, $sup, $embauche, $sal, $comm, $noserv);
 
-                //affichage réussite ou échec de l'action
-                if ($rs){ ?>
-                    <div class="alert alert-success col-6 offset-3 mt-2 m3-2" role="alert">
-                        <p class="text-center p-0 m-0">  Les modifications ont bien été enregistrées . </p>
-                    </div>
-                <?php }else { ?>
-                    <div class="alert alert-danger col-6 offset-3 mt-2 m3-2" role="alert">
-                        <p class="text-center p-0 m-0"> Echec des modifications </p>
-                    </div>
-                <?php }
+                html();
+                afficherMessModif($rs);
                 
-            }
+                
+    }
 
     //consulter
+    if (isset ($_GET["action"]) && $_GET["action"]=="consulter" && 
+                isset($_GET['noemp']) && !empty($_GET['noemp'])){
+
+                    //CONSULTATION
+                    $datas= EmployesMysqliDao :: researchNE($_GET['noemp']);
+
+                    html();
+                    boutons($_GET, $_SESSION['profil']);
+                    affichagetb($_SESSION['profil'], $_GET);
+                    consultation($datas, $_SESSION['profil']);
+    }
+    
+    //affichage globale
+    else{
+        $data= EmployesMysqliDao :: research();
+        $donnees= EmployesMysqliDao :: tridelete();
+        $nomvalue='noemp';
+        $taille=count($donnees);
+
+        html();
+        boutons($_GET, $_SESSION['profil']);
+        affichagetb($_SESSION['profil'], $_GET);
+        affichageGlobal($data, $_SESSION['profil'], $donnees, $nomvalue, $taille);
+    
+    }

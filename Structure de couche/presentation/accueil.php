@@ -33,10 +33,10 @@ if (!isset($_SESSION['mailUser'])){
 
             <div class="boutons col-4 offset-4 mt-5 row">
                 <div class="  col-6">
-                    <a href="tableaux/employes.php" ><button name="connexion" type="submit"  class="btn btn-primary "> Les employés </button></a>
+                    <a href="../controler/employeControler.php" ><button name="connexion" type="submit"  class="btn btn-primary "> Les employés </button></a>
                 </div>
                 <div class=" col-6">
-                    <a href="tableaux/cc-services.php" ><button name="connexion" type="submit"  class="btn btn-primary "> Les services </button></a>
+                    <a href="../controler/serviceControler.php" ><button name="connexion" type="submit"  class="btn btn-primary "> Les services </button></a>
                 </div>
             </div>
         </div>

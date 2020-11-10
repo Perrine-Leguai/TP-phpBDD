@@ -1,3 +1,14 @@
+<?php
+
+session_start();
+    if (!$_SESSION) {
+        header('location: connexion.php');
+    }
+
+    include_once(__DIR__ .'/../dao/EmployesMysqliDao.php');
+    
+
+?>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -9,7 +20,7 @@
     </head>
     <body>
     <?php
-    include 'crudE.php';
+    
     
 
         // AJOUTER QUELQU'UN, RIEN A ÉCRIRE? IRA DIRECTEMENT AU FORMULAIRE
@@ -22,7 +33,7 @@
 
                         $action='modifier';
 
-                        $data=researchNE($_GET['noemp']);
+                        $data=EmployesMysqliDao :: researchNE($_GET['noemp']);
                         
 
         }
@@ -42,7 +53,7 @@
                         <!-- FORMULAIRES D AJOUT -->
                         <div class="col-12">
                             <div >
-                                <form action="<?php  if( $action == "modifier"){ echo "employes.php?action=modifier"; }else{ echo "employes.php?action=ajout" ; } ?>&amp;noemp=<?php if( $action== "modifier"){echo $_GET['noemp']; }?>" method="POST">
+                                <form action="<?php  if( $action == "modifier"){ echo "../controler/employeControler.php?action=modifier"; }else{ echo "../controler/employeControler.php?action=ajout" ; } ?>&amp;noemp=<?php if( $action== "modifier"){echo $_GET['noemp']; }?>" method="POST">
                                     
                                         <div class="row justify-content-md-center">
                                             <!-- NOEMP -->

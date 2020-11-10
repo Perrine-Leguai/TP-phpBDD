@@ -1,6 +1,7 @@
 <?php
 include_once(__DIR__ . '/ParentMysqliDao.php');
 
+
 class UserMysqliDao extends ParentMysqliDao {
 
     public static function insertUser($email, $mdp, $profil){

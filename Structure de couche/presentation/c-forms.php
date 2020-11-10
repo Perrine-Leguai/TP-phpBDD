@@ -12,7 +12,7 @@
     
     <?php
 
-        include 'crud.php'; 
+    include_once(__DIR__ .'/../dao/ServicesMysqliDao.php');
         
         // AJOUTER QUELQU'UN
         if (empty($_GET)){
@@ -24,7 +24,7 @@
                 isset($_GET['noserv']) && !empty($_GET['noserv'])){
                     
                     $action='modifier';
-                    $data=consult($_GET['noserv']);
+                    $data= ServicesMysqliDao :: consult($_GET['noserv']);
                 }
     ?>
 
@@ -40,7 +40,7 @@
                 <div class="row">        
                     <div class="col-12">
                         <div>
-                            <form action="<?php  if( $action == "modifier"){ echo "cc-services.php?action=modifier"; }else{ echo "cc-services.php?action=ajout" ; } ?>&amp;noserv=<?php if( $action== "modifier"){echo $_GET['noserv']; }?>" method="POST">
+                            <form action="<?php  if( $action == "modifier"){ echo "../controler/serviceControler.php?action=modifier"; }else{ echo "../controler/serviceControler.php?action=ajout" ; } ?>&amp;noserv=<?php if( $action== "modifier"){echo $_GET['noserv']; }?>" method="POST">
                                 <div class="row justify-content-md-center">
                                     <!-- NOSERV -->
                                     <div class="d-flex justify-content-end m-2 p-1">

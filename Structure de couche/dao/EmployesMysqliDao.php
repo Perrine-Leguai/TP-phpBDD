@@ -1,7 +1,7 @@
 <!-- contient la fonction addEmploye -->
 <?php
 include_once('ParentMysqliDao.php');
-include_once('../class/Employe.php');
+include_once(__DIR__ .'/../class/Employe.php');
 
 class EmployesMysqliDao extends ParentMysqliDao {
 
@@ -30,13 +30,12 @@ class EmployesMysqliDao extends ParentMysqliDao {
 
     //SUPPRIMER QUELQU'UN
     public static function delete($a){
-        $aa=$a;
 
         $db=parent :: connect();
         
         // on supprime les données
         $stmt=$db->prepare("DELETE FROM emp WHERE noemp=?");
-        $stmt->bind_param('i', $aa);
+        $stmt->bind_param('i', $a);
         $stmt->execute();
         $rs=$stmt->get_result();
                 

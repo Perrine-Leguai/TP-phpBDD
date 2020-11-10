@@ -2,6 +2,7 @@
 <?php
 
 include_once('ParentMysqliDao.php');
+include_once(__DIR__ .'/../class/Service.php');
 
 class ServicesMysqliDao extends ParentMysqliDao {
     // AJOUTER QUELQU'UN
