@@ -1,9 +1,8 @@
 <?php
 session_start();
 if (!$_SESSION){
-    header('Location: ../presentation/connexion.php');
+    header('Location: ../controler/indexControler.php');
 }
-
 
 include_once(__DIR__ .'/../dao/EmployesMysqliDao.php');
 
@@ -37,7 +36,7 @@ function boutons($get, $session ){ ?>
 
                     if ($session=="administrateur"){ ?>
                         <div class="  col-3 mb-1">
-                            <a href="../presentation/formulaire.php"><button type="button" class="btn btn-outline-primary " >Ajouter un.e employé.e  +</button></a>
+                            <a href="../controler/formEmpControler.php"><button type="button" class="btn btn-outline-primary " >Ajouter un.e employé.e  +</button></a>
                         </div>
                 <?php } ?>
                     
@@ -68,7 +67,7 @@ function affichagetb($session, $get){ ?>
                     <th> Commission</th>
                 <?php } ?>
                     <th> N° Service </th>
-                <?php if ($session=="administrateur" || $get['action']!='consulter'){ ?>
+                <?php if ($session=="administrateur" || (!empty($get) || (isset($get['action']) && $get['action']!='consulter'))){ ?>
                     <th> Supprimer </th>
                     <th> Modifier </th>
                 <?php } ?>
@@ -90,7 +89,7 @@ function affichagetb($session, $get){ ?>
                         <th> Commission</th>
                     <?php } ?>
                         <th> N° Service </th>
-                    <?php if ($session=="administrateur" || $get['action']!='consulter' ){ ?>
+                    <?php if ($session=="administrateur" || (!empty($get) || (isset($get['action']) && $get['action']!='consulter'))){ ?>
                         <th> Supprimer </th>
                         <th> Modifier </th>
                     <?php } ?>
@@ -156,7 +155,7 @@ function affichageGlobal($data, $session, $donnees, $nomValue, $taille){
                         
                         </td>
                         <td>
-                            <a href='../presentation/formulaire.php?action=modifier&amp;noemp=<?php echo $value[$nomValue]?>'> 
+                            <a href='../controler/formEmpControler.php?action=modifier&amp;noemp=<?php echo $value[$nomValue]?>'> 
                                 <button class='btn btn-outline-success' value='Modify'>Modifier</button>
                                 </a> 
                         </td>

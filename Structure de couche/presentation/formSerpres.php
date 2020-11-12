@@ -1,45 +1,36 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Formulaire Service</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+<?php
+session_start();
+if (!$_SESSION) {
+    header('location: ../controler/indexControler.php');
+}
 
-</head>
-<body>
-    
-    <?php
 
-    include_once(__DIR__ .'/../dao/ServicesMysqliDao.php');
-        
-        // AJOUTER QUELQU'UN 
-        if (empty($_GET)){
-            $action="ajout";
-        }
-
-        // MODIFIER LES DONNEES
-        elseif (!empty($_GET) && $_GET['action']== 'modifier' && 
-                isset($_GET['noserv']) && !empty($_GET['noserv'])){
+function html(){ ?>
+    <!DOCTYPE html>
+    <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Formulaire de service</title>
+            <link rel="stylesheet" href="style.css">
+            <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+        </head>
+        <body>
+        <!-- CATEGORIE -->
+        <div class="container">
+            <div class="row justify-content-md-center">
+                <div class="employes col-6 offset-3  m-2  ">
+                    <div class="row justify-content-md-center m-4">
+                        <h3 class="employes col-4">Services</h3>
+                    </div>
+                    <div class="row">
                     
-                    $action='modifier';
-                    $data= ServicesMysqliDao :: consult($_GET['noserv']);
-                }
-    ?>
+                        <!-- FORMULAIRES D AJOUT -->
+                        <div class="col-12">
+                            <div >
+<?php }
 
-<!-- CATEGORIE -->
-    <div class="container">
-        <div class="row justify-content-md-center">
-            <div class="employes col-6 offset-3  m-2  ">
-                <div class="row justify-content-md-center m-4">
-                    <h3 class="employes col-4   ">Services</h3>
-                </div>
-
-                <!-- formulaire d'ajout -->
-                <div class="row">        
-                    <div class="col-12">
-                        <div>
+function formulaire($action, $data){ ?>
                             <form action="<?php  if( $action == "modifier"){ echo "../controler/serviceControler.php?action=modifier"; }else{ echo "../controler/serviceControler.php?action=ajout" ; } ?>&amp;noserv=<?php if( $action== "modifier"){echo $_GET['noserv']; }?>" method="POST">
                                 <div class="row justify-content-md-center">
                                     <!-- NOSERV -->
@@ -62,13 +53,16 @@
                                     </div>
                                 </div>    
                             </form>
+<?php }
+
+function finhtml() { ?>
                         </div>
                     </div>
                 </div>                     
             </div>
         </div>
-    </div>
-
-                                    
+    </div>                                       
 </body>
 </html>
+
+<?php } ?>

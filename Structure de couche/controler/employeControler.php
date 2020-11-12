@@ -1,47 +1,45 @@
 <?php
+// if (!$_SESSION) {
+//     header('location: ../controler/indexControler.php');
+// }
 
 include_once(__DIR__ .'/../service/EmployesService.php');
 include_once(__DIR__ . '/../presentation/employepres.php ');
 
 
-
-
     // ajouter
-            if (isset($_GET['action']) && $_GET['action']=="ajout" &&
-                isset($_POST['noemp']) && !empty($_POST['noemp'])){
+    if (isset($_GET['action']) && $_GET['action']=="ajout" &&
+        isset($_POST['noemp']) && !empty($_POST['noemp'])){
 
-                    $noemp=$_POST['noemp'];
-                    $nom=$_POST['nom']? $_POST['nom'] : NULL;
-                    $prenom=$_POST['prenom']? $_POST['prenom'] : NULL;
-                    $emploi=$_POST['emploi']? $_POST['emploi'] : NULL;
-                    $sup=$_POST['sup']? $_POST['sup'] : NULL;
-                    $embauche=$_POST['embauche']? $_POST['embauche'] : NULL;
-                    $sal=$_POST['sal']? $_POST['sal'] : NULL;
-                    $comm=$_POST['comm']? $_POST['comm'] : NULL;
-                    $noserv=$_POST['noserv']? $_POST['noserv'] : NULL;
+            $noemp=$_POST['noemp'];
+            $nom=$_POST['nom']? $_POST['nom'] : NULL;
+            $prenom=$_POST['prenom']? $_POST['prenom'] : NULL;
+            $emploi=$_POST['emploi']? $_POST['emploi'] : NULL;
+            $sup=$_POST['sup']? $_POST['sup'] : NULL;
+            $embauche=$_POST['embauche']? $_POST['embauche'] : NULL;
+            $sal=$_POST['sal']? $_POST['sal'] : NULL;
+            $comm=$_POST['comm']? $_POST['comm'] : NULL;
+            $noserv=$_POST['noserv']? $_POST['noserv'] : NULL;
 
-                    $rs=EmployesService :: addEmp($noemp, $nom, $prenom, $emploi, $sup, $embauche, $sal, $comm, $noserv);
+            $rs=EmployesService :: addEmp($noemp, $nom, $prenom, $emploi, $sup, $embauche, $sal, $comm, $noserv);
+            
+            /* affiche un message en cas d'échec ou de réussite de l'ajout*/
+            
+            html();
+            afficherMess($rs,$_POST['noemp']);
+                            
                     
-                    /* affiche un message en cas d'échec ou de réussite de l'ajout*/
-                    
-                    html();
-                    afficherMess($rs,$_POST['noemp']);
-                    echo($rs);                    
-                    
-                    
-                }
+    }
         
-    
     // supprimer
     elseif (isset($_GET['action']) && $_GET['action']=="delete" &&
             isset($_GET['noemp']) && !empty($_GET['noemp'])){
 
-                $rs=EmployesService:: deleteEmp($_GET['noemp']);
+            $rs=EmployesService:: deleteEmp($_GET['noemp']);
 
-                html();
-                afficherMessDel($rs, $_GET['noemp']);
-                
-    
+            html();
+            afficherMessDel($rs, $_GET['noemp']); 
+            
     }
 
     
@@ -62,8 +60,7 @@ include_once(__DIR__ . '/../presentation/employepres.php ');
                 $rs = EmployesService :: modifEmp($noemp, $nom, $prenom, $emploi, $sup, $embauche, $sal, $comm, $noserv);
 
                 html();
-                afficherMessModif($rs);
-                
+                afficherMessModif($rs); 
                 
     }
 

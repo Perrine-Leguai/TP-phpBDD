@@ -1,4 +1,7 @@
 <?php
+// if (!$_SESSION) {
+//     header('location: ../controler/indexControler.php');
+// }
     include_once(__DIR__ .'/../service/ServicesService.php');
     include_once(__DIR__ . '/../presentation/servicepres.php ');
 
@@ -74,4 +77,5 @@
                 affichageGlobal($data, $_SESSION['profil'], $donnees, $nomvalue, $taille);
             
             }
+
 ?>

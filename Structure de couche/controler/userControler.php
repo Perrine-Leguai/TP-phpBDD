@@ -2,8 +2,19 @@
 <?php
 session_start();
 include_once(__DIR__ .'/../service/UsersService.php');
+include_once(__DIR__ . '/../presentation/userpres.php');
 
-        
+    if (!isset($_SESSION['mailUser'])){
+        header('Location: ../controler/indexControler.php');
+    }
+
+    //redirection vers l'accueil
+    if (isset($_GET['action']) && $_GET['action']=="connected"){
+        html();
+        lienSE($_SESSION['mailUser']);
+    }
+    
+
     //ajoute dans la BDD
     if (isset($_GET['action']) && $_GET['action']=="ajout" &&
         isset ($_POST['email']) && !empty($_POST['email']) &&
@@ -40,7 +51,7 @@ include_once(__DIR__ .'/../service/UsersService.php');
 
                     $_SESSION['mailUser']= $_POST['email'];
                     $_SESSION['profil']=$data['profil'];
-                    header('Location: ../presentation/accueil.php');
+                    header('Location: ../controler/userControler.php?action=connected');
                 }else {
                 
                     header('Location: ../presentation/connexion.php?p=nomdp');
@@ -48,9 +59,9 @@ include_once(__DIR__ .'/../service/UsersService.php');
             } 
     }
 
-elseif (isset($_GET['p'])  &&  $_GET['p']=="deco") {
-    session_destroy();
-    header('Location: ../presentation/connexion.php');
-}
+    elseif (isset($_GET['p'])  &&  $_GET['p']=="deco") {
+        session_destroy();
+        header('Location: ../controler/indexControler.php');
+    }
 
 ?>

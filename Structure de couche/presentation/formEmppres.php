@@ -1,46 +1,21 @@
 <?php
-
 session_start();
-    if (!$_SESSION) {
-        header('location: connexion.php');
-    }
+if (!$_SESSION) {
+    header('location: ../controler/indexControler.php');
+}
 
-    include_once(__DIR__ .'/../dao/EmployesMysqliDao.php');
-    
 
-?>
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Document</title>
-        <link rel="stylesheet" href="style.css">
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
-    </head>
-    <body>
-    <?php
-    
-    
-
-        // AJOUTER QUELQU'UN, RIEN A ÉCRIRE? IRA DIRECTEMENT AU FORMULAIRE
-        if (empty($_GET)){
-            $action="ajout";
-        }
-        // MODIFIER LES DONNEES  
-        elseif ( !empty($_GET) && $_GET['action']=='modifier' && 
-            isset($_GET['noemp']) && !empty($_GET['noemp'])){
-
-                        $action='modifier';
-
-                        $data=EmployesMysqliDao :: researchNE($_GET['noemp']);
-                        
-
-        }
-                                    
-                
-                ?>
-
+function html(){ ?>
+    <!DOCTYPE html>
+    <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Formulaire d'employé.e.s</title>
+            <link rel="stylesheet" href="style.css">
+            <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+        </head>
+        <body>
         <!-- CATEGORIE -->
         <div class="container">
             <div class="row justify-content-md-center">
@@ -53,6 +28,10 @@ session_start();
                         <!-- FORMULAIRES D AJOUT -->
                         <div class="col-12">
                             <div >
+<?php }
+
+function formulaire($action, $data){ ?>
+    
                                 <form action="<?php  if( $action == "modifier"){ echo "../controler/employeControler.php?action=modifier"; }else{ echo "../controler/employeControler.php?action=ajout" ; } ?>&amp;noemp=<?php if( $action== "modifier"){echo $_GET['noemp']; }?>" method="POST">
                                     
                                         <div class="row justify-content-md-center">
@@ -118,6 +97,9 @@ session_start();
 
                                         </div>
                                 </form> 
+<?php }
+
+function finhtml(){ ?>
                             </div>
                         </div> 
                     </div>
@@ -126,3 +108,4 @@ session_start();
         </div>
     </body>
 </html>
+<?php } ?>

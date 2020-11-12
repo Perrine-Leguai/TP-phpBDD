@@ -37,7 +37,7 @@ function boutons($get, $session ){ ?>
 
                     if ($session=="administrateur"){ ?>
                         <div class="  col-3 mb-1">
-                            <a href="../presentation/c-forms.php"><button type="button" class="btn btn-outline-primary " >Ajouter un service  +</button></a>
+                            <a href="../controler/formSerControler.php"><button type="button" class="btn btn-outline-primary " >Ajouter un service  +</button></a>
                         </div>
                 <?php } ?>
                     
@@ -60,7 +60,7 @@ function affichagetb($session, $get){ ?>
                 <th> N° service </th>
                 <th> service</th>
                 <th> ville </th>
-                <?php if ($session=="administrateur" || $get['action']!='consulter'){ ?>
+                <?php if ($session=="administrateur" || (!empty($get) || (isset($get['action']) && $get['action']!='consulter'))){ ?>
                 <th> Supprimer </th>
                 <th> Modifier </th>
                 <?php } ?>
@@ -117,7 +117,7 @@ function affichageGlobal($data, $session, $donnees, $nomValue, $taille){
                         
                         </td>
                         <td>
-                            <a href='../presentation/c-forms.php?action=modifier&amp;noserv=<?php echo $value[$nomValue]?>'> 
+                            <a href='../controler/formSerControler.php?action=modifier&amp;noserv=<?php echo $value[$nomValue]?>'> 
                                 <button class='btn btn-outline-success' value='Modify'>Modifier</button>
                                 </a> 
                         </td>

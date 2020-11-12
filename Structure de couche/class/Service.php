@@ -15,19 +15,19 @@ class Service {
         $this->noserv = $newNoserv;
         return $this;
     }
-    public function getVille() : string{
+    public function getVille() : ?string{
         return $this->ville;
     }
 
-    public function setVille(string $newVille): self{
+    public function setVille(?string $newVille): self{
         $this->ville= $newVille;
         return $this;
     }
-    public function getServ() : string{
+    public function getServ() : ?string{
         return $this->serv;
     }
 
-    public function setServ(string $newServ): self{
+    public function setServ(?string $newServ): self{
         $this->serv= $newServ;
         return $this;
     }
