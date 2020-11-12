@@ -17,8 +17,8 @@ class ServicesMysqliDao extends ParentMysqliDao {
         // on insère les nouvelles données
         $stmt=$db->prepare("INSERT INTO serv values (?,?,?)") ;
         $stmt->bind_param('iss', $a, $b, $c);
-        $stmt->execute();
-        $rs=$stmt->get_result();
+        $rs=$stmt->execute();
+       
 
         //fermeture bdd
         $db->close();
@@ -56,8 +56,7 @@ class ServicesMysqliDao extends ParentMysqliDao {
         // mise à jour bdd
         $stmt=$db->prepare("UPDATE serv SET serv=?, ville=? WHERE noserv=?");
         $stmt->bind_param('ssi',$b,$c, $a);
-        $stmt->execute();
-        $rs=$stmt->get_result();
+        $rs=$stmt->execute();
 
         //fermeture bdd
         $db->close();

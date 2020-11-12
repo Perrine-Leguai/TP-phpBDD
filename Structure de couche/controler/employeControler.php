@@ -26,7 +26,7 @@ include_once(__DIR__ . '/../presentation/employepres.php ');
                     
                     html();
                     afficherMess($rs,$_POST['noemp']);
-                    
+                    echo($rs);                    
                     
                     
                 }

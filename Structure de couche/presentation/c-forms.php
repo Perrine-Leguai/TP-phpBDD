@@ -14,7 +14,7 @@
 
     include_once(__DIR__ .'/../dao/ServicesMysqliDao.php');
         
-        // AJOUTER QUELQU'UN
+        // AJOUTER QUELQU'UN 
         if (empty($_GET)){
             $action="ajout";
         }

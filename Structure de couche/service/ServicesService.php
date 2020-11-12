@@ -3,10 +3,11 @@
     include_once(__DIR__ .'/../dao/ServicesMysqliDao.php');
 
     class ServicesService {
-        public static function addService (int $id, string $serv,string $ville) : void{
+        public static function addService (int $id, string $serv,string $ville){
             $service = new Service();
             $service->setNoserv($id)->setServ($serv)->setVille($ville);
-            ServicesMysqliDao :: add($service);
+            $rs=ServicesMysqliDao :: add($service);
+            return $rs;
         }
 
         public static function deleteService(int $getserv)  {
