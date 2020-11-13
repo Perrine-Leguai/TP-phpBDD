@@ -95,4 +95,19 @@ class Employe {
         . " [embauche] :" . $this->embauche. " [sal] :" . $this->sal. " [comm] :" . $this->comm
         . " [noserv] :" . $this->noserv . " [noSup] :" . $this->noSup;
     }
+
+    public function rendreVisible(){
+        $data[0]= $this->noemp;
+        $data[1]=$this->nom;
+        $data[2]=$this->prenom;
+        $data[3]=$this->emploi;
+        $data[4]=$this->sup;
+        $data[5]=$this->embauche;
+        $data[6]=$this->sal;
+        $data[7]=$this->comm;
+        $data[8]=$this->noserv;
+
+        return $data;
+        }
+
 }

@@ -69,17 +69,19 @@ include_once(__DIR__ . '/../presentation/employepres.php ');
                 isset($_GET['noemp']) && !empty($_GET['noemp'])){
 
                     //CONSULTATION
-                    $datas= EmployesMysqliDao :: researchNE($_GET['noemp']);
+                    $emp= EmployesMysqliDao :: researchNE($_GET['noemp']);
+                    
 
                     html();
                     boutons($_GET, $_SESSION['profil']);
                     affichagetb($_SESSION['profil'], $_GET);
-                    consultation($datas, $_SESSION['profil']);
+                    consultation($emp, $_SESSION['profil']);
     }
     
     //affichage globale
     else{
         $data= EmployesMysqliDao :: research();
+        
         $donnees= EmployesMysqliDao :: tridelete();
         $nomvalue='noemp';
         $taille=count($donnees);

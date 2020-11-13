@@ -56,7 +56,7 @@
                 isset($_GET['noserv']) && !empty($_GET['noserv'])){
 
                     //CONSULTATION
-                    $data= ServicesMysqliDao ::consult($_GET['noserv']);
+                    $data= ServicesMysqliDao ::researchNE($_GET['noserv']);
 
                     html();
                     boutons($_GET, $_SESSION['profil']);

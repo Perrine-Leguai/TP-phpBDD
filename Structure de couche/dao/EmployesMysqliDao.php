@@ -2,8 +2,9 @@
 <?php
 include_once('ParentMysqliDao.php');
 include_once(__DIR__ .'/../class/Employe.php');
+require_once(__DIR__ . '/../dao/interface.php');
 
-class EmployesMysqliDao extends ParentMysqliDao {
+class EmployesMysqliDao extends ParentMysqliDao implements communDAO{
 
     //AJOUTER QUELQU'UN
     public static function add ($objet){
@@ -79,6 +80,13 @@ class EmployesMysqliDao extends ParentMysqliDao {
         $rs=$stmt->get_result();
         $data = $rs->fetch_all(MYSQLI_ASSOC);
 
+        
+        foreach($data as $key=>$value){
+            $emp= new Employe();
+            $emp->setNoemp($value['noemp'])->setNom($value['nom'])->setPrenom($value['prenom'])->setEmploi($value['emploi'])->setSup($value['sup'])->setEmbauche($value['embauche'])->setSal($value['sal'])->setComm($value['comm'])->setNoserv($value['noserv']);
+            $key=$emp;
+    
+        }
         $rs->free();
         $db->close();
 
@@ -95,11 +103,13 @@ class EmployesMysqliDao extends ParentMysqliDao {
         $stmt->execute();
         $rs=$stmt->get_result();
         $data=$rs->fetch_array(MYSQLI_ASSOC);
+        $emp = new Employe();
+        $emp->setNoemp($data['noemp'])->setNom($data['nom'])->setPrenom($data['prenom'])->setEmploi($data['emploi'])->setSup($data['sup'])->setEmbauche($data['embauche'])->setSal($data['sal'])->setComm($data['comm'])->setNoserv($data['noserv']);
         
         $rs->free();
         $db->close();
 
-        return $data;
+        return $emp;
 
     }
 

@@ -103,24 +103,28 @@ function affichagetb($session, $get){ ?>
 }
 
         
-function consultation($data, $session){
+function consultation($objet, $session){
+    $data= $objet->rendreVisible();
     foreach ($data as $key => $n){
         if($session=='utilisateur' && !($key=='sal' || $key=='comm')){
             echo "<td>$n</td>";
         }elseif($session=='administrateur'){
             echo "<td>$n</td>";
         }
-        }
+    }
 
 }
 
 
 function affichageGlobal($data, $session, $donnees, $nomValue, $taille){        
                 
-    foreach ($data as $key => $value) {
+    foreach ($data as $emp => $value) {
         echo"<tr>";
-    
+        // $emp= new Employe();
+        // $emp->setNoemp($value['noemp'])->setNom($value['nom'])->setPrenom($value['prenom'])->setEmploi($value['emploi'])->setSup($value['sup'])->setEmbauche($value['embauche'])->setSal($value['sal'])->setComm($value['comm'])->setNoserv($value['noserv']);
+        // $key=$emp;
         foreach ($value as $k=> $v) {
+            $value= $emp->rendreVisible();
             if($session=='utilisateur' && !($k=='sal' || $k=='comm')){
                 echo "<td>$v</td>";
             }elseif($session=='administrateur'){
@@ -134,8 +138,8 @@ function affichageGlobal($data, $session, $donnees, $nomValue, $taille){
                 $flag=false;
                     
                 for ($i=0; $i<$taille; $i++) {
+                    if ($value[0] == $donnees[$i][$nomValue]){
                         
-                    if ($value[$nomValue] == $donnees[$i][$nomValue]){
                         $flag=true;
                         break;
                     } 
@@ -143,7 +147,7 @@ function affichageGlobal($data, $session, $donnees, $nomValue, $taille){
                 
                     if(!$flag){  
                 ?>
-                            <a href='../controler/employeControler.php?action=delete&amp;noemp=<?php echo $value[$nomValue]?>'>
+                            <a href='../controler/employeControler.php?action=delete&amp;noemp=<?php echo $emp->getNoemp()?>'>
                             <button class='btn btn-outline-danger' value='Remove'>Supprimer</button>
                             </a>  
                     <?php
@@ -155,13 +159,13 @@ function affichageGlobal($data, $session, $donnees, $nomValue, $taille){
                         
                         </td>
                         <td>
-                            <a href='../controler/formEmpControler.php?action=modifier&amp;noemp=<?php echo $value[$nomValue]?>'> 
+                            <a href='../controler/formEmpControler.php?action=modifier&amp;noemp=<?php echo $emp->getNoemp()?>'> 
                                 <button class='btn btn-outline-success' value='Modify'>Modifier</button>
                                 </a> 
                         </td>
                     <?php } ?>
                         <td>
-                            <a href='../controler/employeControler.php?action=consulter&amp;noemp=<?php echo $value[$nomValue] ?>'>
+                            <a href='../controler/employeControler.php?action=consulter&amp;noemp=<?php echo $emp->getNoemp() ?>'>
                             <button class='btn btn-outline-info' value='Consult'>Consulter</button>
                             </a> 
                         </td>

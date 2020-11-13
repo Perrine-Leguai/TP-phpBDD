@@ -3,8 +3,9 @@
 
 include_once('ParentMysqliDao.php');
 include_once(__DIR__ .'/../class/Service.php');
+require_once(__DIR__ .'/../dao/interface.php');
 
-class ServicesMysqliDao extends ParentMysqliDao {
+class ServicesMysqliDao extends ParentMysqliDao implements communDAO {
     // AJOUTER QUELQU'UN
     public static function add ($objet){
         $a=$objet->getNoserv();
@@ -84,7 +85,7 @@ class ServicesMysqliDao extends ParentMysqliDao {
     }
         
     //RECHERCHE POUR LA CONSULTATION
-    public static function consult($a){
+    public static function researchNE($a){
         $aa=$a;
         
         $db =parent :: connect();
