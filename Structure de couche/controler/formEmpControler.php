@@ -20,8 +20,8 @@ html();
         isset($_GET['noemp']) && !empty($_GET['noemp'])){
 
                     $action='modifier';
-                    $data=EmployesMysqliDao :: researchNE($_GET['noemp']);
-                    formulaire($action, $data);
+                    $employe=EmployesMysqliDao :: researchNE($_GET['noemp']);
+                    formulaire($action, $employe);
     } 
 
 finhtml();

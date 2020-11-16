@@ -118,27 +118,24 @@ function consultation($objet, $session){
 
 function affichageGlobal($data, $session, $donnees, $nomValue, $taille){        
                 
-    foreach ($data as $emp => $value) {
-        echo"<tr>";
-        // $emp= new Employe();
-        // $emp->setNoemp($value['noemp'])->setNom($value['nom'])->setPrenom($value['prenom'])->setEmploi($value['emploi'])->setSup($value['sup'])->setEmbauche($value['embauche'])->setSal($value['sal'])->setComm($value['comm'])->setNoserv($value['noserv']);
-        // $key=$emp;
-        foreach ($value as $k=> $v) {
-            $value= $emp->rendreVisible();
-            if($session=='utilisateur' && !($k=='sal' || $k=='comm')){
-                echo "<td>$v</td>";
-            }elseif($session=='administrateur'){
-                echo "<td>$v</td>";
-            }
+    foreach ($data as $emp) {
+        echo"<tr>";        
+
+        echo"<td>".$emp->getNoemp()."</td>" , "<td>".$emp->getNom()."</td>" , "<td>".$emp->getPrenom()."</td>";
+        echo"<td>".$emp->getEmploi()."</td>", "<td>".$emp->getSup()."</td>", "<td>".$emp->getEmbauche()."</td>";
+        if($session=='administrateur'){
+        echo"<td>".$emp->getSal()."</td>", "<td>".$emp->getComm()."</td>";
         }
+        echo"<td>".$emp->getNoserv()."</td>";
+    
 
         if ($session=="administrateur"){
                 echo "<td>";                
 
                 $flag=false;
-                    
+                    $get= "get".ucfirst($nomValue) ;
                 for ($i=0; $i<$taille; $i++) {
-                    if ($value[0] == $donnees[$i][$nomValue]){
+                    if ($emp->$get() == $donnees[$i][$nomValue]){
                         
                         $flag=true;
                         break;
@@ -169,8 +166,8 @@ function affichageGlobal($data, $session, $donnees, $nomValue, $taille){
                             <button class='btn btn-outline-info' value='Consult'>Consulter</button>
                             </a> 
                         </td>
-                    </tr>
-                <?php } ?>
+                </tr>
+            <?php } ?>
         </tbody>
     </table>
     </div>

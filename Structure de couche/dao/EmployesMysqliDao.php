@@ -3,11 +3,12 @@
 include_once('ParentMysqliDao.php');
 include_once(__DIR__ .'/../class/Employe.php');
 require_once(__DIR__ . '/../dao/interface.php');
+require_once(__DIR__ . '/../dao/RechercheSup.php');
 
-class EmployesMysqliDao extends ParentMysqliDao implements communDAO{
+class EmployesMysqliDao extends ParentMysqliDao implements communDAO, RechercheSup{
 
     //AJOUTER QUELQU'UN
-    public static function add ($objet){
+    public function add ($objet){
         $a= $objet->getNoemp();
         $b=$objet->getNom();
         $c=$objet->getPrenom();
@@ -30,7 +31,7 @@ class EmployesMysqliDao extends ParentMysqliDao implements communDAO{
     }
 
     //SUPPRIMER QUELQU'UN
-    public static function delete($a){
+    public  function delete($a){
 
         $db=parent :: connect();
         
@@ -45,7 +46,7 @@ class EmployesMysqliDao extends ParentMysqliDao implements communDAO{
     }
 
     //MODIFIER DES DONNEES
-    public static function edit($objet){
+    public  function edit($objet){
 
         $a= $objet->getNoemp();
         $b=$objet->getNom();
@@ -70,7 +71,7 @@ class EmployesMysqliDao extends ParentMysqliDao implements communDAO{
     }
 
     //RECHERCHER DANS LA BDD
-    public static function research(){
+    public  function research(){
         
         $db= parent :: connect();
 
@@ -80,13 +81,14 @@ class EmployesMysqliDao extends ParentMysqliDao implements communDAO{
         $rs=$stmt->get_result();
         $data = $rs->fetch_all(MYSQLI_ASSOC);
 
-        
+        $i=0;
         foreach($data as $key=>$value){
             $emp= new Employe();
             $emp->setNoemp($value['noemp'])->setNom($value['nom'])->setPrenom($value['prenom'])->setEmploi($value['emploi'])->setSup($value['sup'])->setEmbauche($value['embauche'])->setSal($value['sal'])->setComm($value['comm'])->setNoserv($value['noserv']);
-            $key=$emp;
-    
+            $data[$i]=$emp;
+            $i++;
         }
+        
         $rs->free();
         $db->close();
 
@@ -94,12 +96,12 @@ class EmployesMysqliDao extends ParentMysqliDao implements communDAO{
     }
         
     //RECHERCHE POUR LA CONSULTATION
-    public static function researchNE($a){
+    public  function researchNE(int $a){
         $db= parent :: connect();
 
         //récupère les données d'un employé précisé
         $stmt=$db->prepare("SELECT * FROM emp WHERE noemp=?");
-        $stmt->bind_param('i',$a);
+        $stmt->bind_param('i', $a);
         $stmt->execute();
         $rs=$stmt->get_result();
         $data=$rs->fetch_array(MYSQLI_ASSOC);
@@ -114,7 +116,7 @@ class EmployesMysqliDao extends ParentMysqliDao implements communDAO{
     }
 
     //TRI DE CELLES ET CEUX QUI NE PEUVENT ÊTRE SUPPRIMÉ.E.S
-    public static function tridelete(){
+    public  function rechercheSup(){
         $db= parent :: connect();
         
         //sélectionne les employés qui ont des subalternes

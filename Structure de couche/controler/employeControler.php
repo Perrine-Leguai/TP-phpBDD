@@ -82,7 +82,8 @@ include_once(__DIR__ . '/../presentation/employepres.php ');
     else{
         $data= EmployesMysqliDao :: research();
         
-        $donnees= EmployesMysqliDao :: tridelete();
+        
+        $donnees= EmployesMysqliDao :: rechercheSup();
         $nomvalue='noemp';
         $taille=count($donnees);
 

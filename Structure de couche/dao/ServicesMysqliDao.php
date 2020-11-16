@@ -3,9 +3,9 @@
 
 include_once('ParentMysqliDao.php');
 include_once(__DIR__ .'/../class/Service.php');
-require_once(__DIR__ .'/../dao/interface.php');
+// require_once(__DIR__ .'/../dao/interface.php');
 
-class ServicesMysqliDao extends ParentMysqliDao implements communDAO {
+class ServicesMysqliDao extends ParentMysqliDao  { //implements communDAO
     // AJOUTER QUELQU'UN
     public static function add ($objet){
         $a=$objet->getNoserv();
