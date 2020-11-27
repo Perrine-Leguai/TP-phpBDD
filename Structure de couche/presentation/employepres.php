@@ -175,17 +175,23 @@ function affichageGlobal($data, $session, $donnees, $nomValue, $taille){
 </html>
 <?php }
 
-function afficherMess($rs,$info){
-if ($rs){ ?>
-    <div class="alert alert-success col-6 offset-3 mt-2 m3-2" role="alert">
-        <p class="text-center p-0 m-0"> L'employé.e n° <?php echo($info) ?> a bien été ajouté.e . </p>
-    </div>
-<?php ;} else { ?>
-    <div class="alert alert-danger col-6 offset-3 mt-2 m3-2" role="alert">
-        <p class="text-center p-0 m-0"> Echec de l'ajout </p>
-    </div>
-   <?php
-    }
+function afficherMess($rs=null,$info=null, $errorCode=null, $errorMessage=null){
+    if($errorCode && $errorCode == 1062){?>
+        <div class="alert alert-danger col-6 offset-3 mt-2 m3-2" role="alert">
+            <p class="text-center p-0 m-0"> Employé déjà existant </p>
+        </div>
+    <?php
+    ;}
+    if ($rs){ ?>
+        <div class="alert alert-success col-6 offset-3 mt-2 m3-2" role="alert">
+            <p class="text-center p-0 m-0"> L'employé.e n° <?php echo($info) ?> a bien été ajouté.e . </p>
+        </div>
+    <?php ;} else { ?>
+        <div class="alert alert-danger col-6 offset-3 mt-2 m3-2" role="alert">
+            <p class="text-center p-0 m-0"> Echec de l'ajout </p>
+        </div>
+    <?php
+        }
 }
 
 function afficherMessDel($rs, $info){ ?>

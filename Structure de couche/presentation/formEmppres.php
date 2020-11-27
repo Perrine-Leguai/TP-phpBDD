@@ -30,7 +30,7 @@ function html(){ ?>
                             <div >
 <?php }
 
-function formulaire(string $action, object $employe){ ?>
+function formulaire(string $action, object $employe=null){ ?>
     
                                 <form action="<?php  if( $action == "modifier"){ echo "../controler/employeControler.php?action=modifier"; }else{ echo "../controler/employeControler.php?action=ajout" ; } ?>&amp;noemp=<?php if( $action== "modifier"){echo $_GET['noemp']; }?>" method="POST">
                                     

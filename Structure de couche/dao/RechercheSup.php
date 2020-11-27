@@ -1,5 +1,5 @@
 <?php
 
-interface RechercheSup {
+interface RechercheSup extends CommunDAO{
     public function rechercheSup();
 }

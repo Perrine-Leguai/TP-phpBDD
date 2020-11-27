@@ -5,7 +5,8 @@
 
 include_once(__DIR__ .'/../service/EmployesService.php');
 include_once(__DIR__ . '/../presentation/employepres.php ');
-
+mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
+require_once('exceptionControler.php');
 
     // ajouter
     if (isset($_GET['action']) && $_GET['action']=="ajout" &&
@@ -21,12 +22,19 @@ include_once(__DIR__ . '/../presentation/employepres.php ');
             $comm=$_POST['comm']? $_POST['comm'] : NULL;
             $noserv=$_POST['noserv']? $_POST['noserv'] : NULL;
 
-            $rs=EmployesService :: addEmp($noemp, $nom, $prenom, $emploi, $sup, $embauche, $sal, $comm, $noserv);
+            try{
+                $rs=EmployesService :: addEmp($noemp, $nom, $prenom, $emploi, $sup, $embauche, $sal, $comm, $noserv);
             
-            /* affiche un message en cas d'échec ou de réussite de l'ajout*/
+                /* affiche un message en cas d'échec ou de réussite de l'ajout*/
+                
+                html();
+                afficherMess($rs,$_POST['noemp']);
+            }catch(ExceptionService $econ){
+                afficherMess($rs=null,$info=null, $econ->getCode(),$econ->getMessage());
+            }catch(Exception $econ){
+                throw new Exception($econ->getMessage(), $econ->getCode());
+            }
             
-            html();
-            afficherMess($rs,$_POST['noemp']);
                             
                     
     }
@@ -34,11 +42,17 @@ include_once(__DIR__ . '/../presentation/employepres.php ');
     // supprimer
     elseif (isset($_GET['action']) && $_GET['action']=="delete" &&
             isset($_GET['noemp']) && !empty($_GET['noemp'])){
+            try{
+                $rs=EmployesService:: deleteEmp($_GET['noemp']);
 
-            $rs=EmployesService:: deleteEmp($_GET['noemp']);
-
-            html();
-            afficherMessDel($rs, $_GET['noemp']); 
+                html();
+                afficherMessDel($rs, $_GET['noemp']); 
+            }catch(ExceptionService $econ){
+                throw new ExceptionControler($econ->getMessage(), $econ->getCode());
+            }catch(Exception $econ){
+                throw new Exception($econ->getMessage(), $econ->getCode());
+            }
+            
             
     }
 
@@ -56,40 +70,52 @@ include_once(__DIR__ . '/../presentation/employepres.php ');
                 $sal=$_POST['sal']? $_POST['sal'] : NULL;
                 $comm=$_POST['comm']? $_POST['comm'] : NULL;
                 $noserv=$_POST['noserv']? $_POST['noserv'] : NULL;
+                try{
+                    $rs = EmployesService :: modifEmp($noemp, $nom, $prenom, $emploi, $sup, $embauche, $sal, $comm, $noserv);
 
-                $rs = EmployesService :: modifEmp($noemp, $nom, $prenom, $emploi, $sup, $embauche, $sal, $comm, $noserv);
-
-                html();
-                afficherMessModif($rs); 
-                
+                    html();
+                    afficherMessModif($rs); 
+                }catch(ExceptionService $econ){
+                    throw new ExceptionControler($econ->getMessage(), $econ->getCode());
+                }catch(Exception $econ){
+                    throw new Exception($econ->getMessage(), $econ->getCode());
+                }
     }
 
     //consulter
     if (isset ($_GET["action"]) && $_GET["action"]=="consulter" && 
                 isset($_GET['noemp']) && !empty($_GET['noemp'])){
-
-                    //CONSULTATION
-                    $emp= EmployesMysqliDao :: researchNE($_GET['noemp']);
-                    
-
-                    html();
-                    boutons($_GET, $_SESSION['profil']);
-                    affichagetb($_SESSION['profil'], $_GET);
-                    consultation($emp, $_SESSION['profil']);
+                    try{
+                        //CONSULTATION
+                        $emp= EmployesMysqliDao :: researchNE($_GET['noemp']);
+                        html();
+                        boutons($_GET, $_SESSION['profil']);
+                        affichagetb($_SESSION['profil'], $_GET);
+                        consultation($emp, $_SESSION['profil']);
+                    }catch(ExceptionService $econ){
+                        throw new ExceptionControler($econ->getMessage(), $econ->getCode());
+                    }catch(Exception $econ){
+                        throw new Exception($econ->getMessage(), $econ->getCode());
+                    }
     }
     
     //affichage globale
     else{
-        $data= EmployesMysqliDao :: research();
-        
-        
-        $donnees= EmployesMysqliDao :: rechercheSup();
-        $nomvalue='noemp';
-        $taille=count($donnees);
+        try{
+            $data= EmployesMysqliDao :: research();
+            
+            $donnees= EmployesMysqliDao :: rechercheSup();
+            $nomvalue='noemp';
+            $taille=count($donnees);
 
-        html();
-        boutons($_GET, $_SESSION['profil']);
-        affichagetb($_SESSION['profil'], $_GET);
-        affichageGlobal($data, $_SESSION['profil'], $donnees, $nomvalue, $taille);
+            html();
+            boutons($_GET, $_SESSION['profil']);
+            affichagetb($_SESSION['profil'], $_GET);
+            affichageGlobal($data, $_SESSION['profil'], $donnees, $nomvalue, $taille);
+        }catch(ExceptionService $econ){
+            throw new ExceptionControler($econ->getMessage(), $econ->getCode());
+        }catch(Exception $econ){
+            throw new Exception($econ->getMessage(), $econ->getCode());
+        }
     
     }

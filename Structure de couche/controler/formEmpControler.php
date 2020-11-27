@@ -11,7 +11,7 @@ html();
     // AJOUTER UN EMPLOYE
     if (empty($_GET)){
         $action="ajout";
-        $data= "";
+        $data= null;
         formulaire($action, $data);
     }
 
