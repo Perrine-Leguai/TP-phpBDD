@@ -1,5 +1,5 @@
 <?php
-include_once(__DIR__.'/../presentation/indexpres.php');
+include_once(__DIR__.'/../4presentation/indexpres.php');
 
 if (empty($_GET)){
     menu();
@@ -15,7 +15,13 @@ elseif (isset($_GET['action']) && !empty($_GET['action']) && $_GET['action']=="c
         $_GET['p'] = "rien";
         $test=" ";
     }
-    connexion($_GET['p'],$test);
+    try{
+        connexion($_GET['p'],$test);
+    }catch(ExceptionService $econ){
+        afficherMessage($econ->getCode());;
+    }catch(Exception $econ){
+        throw new Exception( $econ->getCode());
+    }
 
 }
 elseif (isset($_GET['action']) && !empty($_GET['action']) && $_GET['action']=="inscription"){

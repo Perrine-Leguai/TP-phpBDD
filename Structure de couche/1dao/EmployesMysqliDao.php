@@ -1,9 +1,9 @@
 <!-- contient la fonction addEmploye -->
 <?php
 include_once('ParentMysqliDao.php');
-include_once(__DIR__ .'/../class/Employe.php');
-require_once(__DIR__ . '/../dao/interface.php');
-require_once(__DIR__ . '/../dao/RechercheSup.php');
+include_once(__DIR__ .'/../0class/Employe.php');
+require_once(__DIR__ . '/../1dao/interface.php');
+require_once(__DIR__ . '/../1dao/RechercheSup.php');
 mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 require_once('exceptionDAO.php');
 class EmployesMysqliDao extends ParentMysqliDao implements RechercheSup{
@@ -31,9 +31,9 @@ class EmployesMysqliDao extends ParentMysqliDao implements RechercheSup{
             return $rs;
         }catch(mysqli_sql_exception $edao){
             
-            throw new ExceptionDAO($edao->getMessage(), $edao->getCode());
+            throw new ExceptionDAO( $edao->getCode());
         }catch(Exception $edao){
-            throw new ExceptionDAO($edao->getMessage(), $edao->getCode());
+            throw new ExceptionDAO( $edao->getCode());
         }     
     }
 
@@ -50,9 +50,9 @@ class EmployesMysqliDao extends ParentMysqliDao implements RechercheSup{
             $db->close();
             return $rs;
         }catch(mysqli_sql_exception $edao){
-            throw new ExceptionDAO($edao->getMessage(), $edao->getCode());
+            throw new ExceptionDAO( $edao->getCode());
         }catch(Exception $edao){
-            throw new ExceptionDAO($edao->getMessage(), $edao->getCode());
+            throw new ExceptionDAO( $edao->getCode());
         }      
     }
 
@@ -78,9 +78,9 @@ class EmployesMysqliDao extends ParentMysqliDao implements RechercheSup{
             $db->close();          
             return $rs;
         }catch(mysqli_sql_exception $edao){
-            throw new ExceptionDAO($edao->getMessage(), $edao->getCode());
+            throw new ExceptionDAO( $edao->getCode());
         }catch(Exception $edao){
-            throw new ExceptionDAO($edao->getMessage(), $edao->getCode());
+            throw new ExceptionDAO( $edao->getCode());
         }
     }
 
@@ -106,9 +106,9 @@ class EmployesMysqliDao extends ParentMysqliDao implements RechercheSup{
             $db->close();
             return $data;
         }catch(mysqli_sql_exception $edao){
-            throw new ExceptionDAO($edao->getMessage(), $edao->getCode());
+            throw new ExceptionDAO( $edao->getCode());
         }catch(Exception $edao){
-            throw new ExceptionDAO($edao->getMessage(), $edao->getCode());
+            throw new ExceptionDAO( $edao->getCode());
         }
     }
         
@@ -131,9 +131,9 @@ class EmployesMysqliDao extends ParentMysqliDao implements RechercheSup{
 
             return $emp;
         }catch(mysqli_sql_exception $edao){
-            throw new ExceptionDAO($edao->getMessage(), $edao->getCode());
+            throw new ExceptionDAO( $edao->getCode());
         }catch(Exception $edao){
-            throw new ExceptionDAO($edao->getMessage(), $edao->getCode());
+            throw new ExceptionDAO( $edao->getCode());
         }
 
     }
@@ -149,9 +149,9 @@ class EmployesMysqliDao extends ParentMysqliDao implements RechercheSup{
             $donnees=$rs->fetch_all(MYSQLI_ASSOC);
             return $donnees;
         }catch(mysqli_sql_exception $edao){
-            throw new ExceptionDAO($edao->getMessage(), $edao->getCode());
+            throw new ExceptionDAO( $edao->getCode());
         }catch(Exception $edao){
-            throw new ExceptionDAO($edao->getMessage(), $edao->getCode());
+            throw new ExceptionDAO( $edao->getCode());
         }
     }
 }

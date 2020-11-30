@@ -2,7 +2,7 @@
 
 
 function menu(){
-    include_once(__DIR__. '/../presentation/CoInsc.php');
+    include_once(__DIR__. '/../4presentation/CoInsc.php');
  }
 
 function html(){ ?>
@@ -36,7 +36,7 @@ function connexion($getp, $test ){ ?>
                                     <p class="text-center p-0 m-0"> <?php echo $test ?></p>
                                 </div>
                             <?php } ?>
-                                <form action="../controler/userControler.php?action=connect"  method="POST">
+                                <form action="../3controler/userControler.php?action=connect"  method="POST">
                                         <div class="row justify-content-md-center">
 
                                             <!-- MAIL & PASSWORD-->
@@ -91,7 +91,7 @@ function inscription($getp){ ?>
                             <p class="text-center p-0 m-0"> Un compte est déjà relié à ce mail </p>
                         </div>
                         <?php } ?>
-                            <form action="../controler/userControler.php?action=ajout"  method="POST">
+                            <form action="../3controler/userControler.php?action=ajout"  method="POST">
                                     <div class=" justify-content-md-center">
                                        
                                         <!-- NOM & PRENOM -->

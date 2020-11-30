@@ -1,7 +1,7 @@
 <?php
 session_start();
 if (!$_SESSION) {
-    header('location: ../controler/indexControler.php');
+    header('location: ../3controler/indexControler.php');
 }
 
 

@@ -1,11 +1,11 @@
 <?php
 session_start();
 if (!$_SESSION){
-    header('Location: ../presentation/connexion.php');
+    header('Location: ../4presentation/connexion.php');
 }
 
 
-include_once(__DIR__ .'/../dao/ServicesMysqliDao.php');
+include_once(__DIR__ .'/../1dao/ServicesMysqliDao.php');
 
 //HTML
 function html(){ ?>
@@ -30,22 +30,22 @@ function boutons($get, $session ){ ?>
                 <?php 
                     if (isset($get['action']) && $get['action']='consulter'){ ?>
                         <div class="  col-1 text-left">
-                            <a href="../controler/serviceControler.php"><img src="../img/fleche.png" ></button></a>
+                            <a href="../3controler/serviceControler.php"><img src="../img/fleche.png" ></button></a>
                         </div>
                         <?php
                     }
 
                     if ($session=="administrateur"){ ?>
                         <div class="  col-3 mb-1">
-                            <a href="../controler/formSerControler.php"><button type="button" class="btn btn-outline-primary " >Ajouter un service  +</button></a>
+                            <a href="../3controler/formSerControler.php"><button type="button" class="btn btn-outline-primary " >Ajouter un service  +</button></a>
                         </div>
                 <?php } ?>
                     
                     <div class=" <?php if(isset($session) && $session=="administrateur"){ echo"col-5 mb-1";} else {echo "col-8 mb-1";} ?>">
-                        <a href="../controler/employeControler.php" ><button name="employes" type="submit"  class="btn btn-primary "> EMPLOYES </button></a>
+                        <a href="../3controler/employeControler.php" ><button name="employes" type="submit"  class="btn btn-primary "> EMPLOYES </button></a>
                     </div>
                     <div class=" col-3 mb-1">
-                        <a href="../controler/userControler.php?p=deco" ><button name="deconnexion" type="submit"  class="btn btn-outline-secondary "> Se déconnecter  X </button></a>
+                        <a href="../3controler/userControler.php?p=deco" ><button name="deconnexion" type="submit"  class="btn btn-outline-secondary "> Se déconnecter  X </button></a>
                     </div>
             </div>
 <?php
@@ -105,7 +105,7 @@ function affichageGlobal($data, $session, $donnees, $nomValue, $taille){
                     
                         if(!$flag){  
                     ?>
-                            <a href='../controler/serviceControler.php?action=delete&amp;noserv=<?php echo $value[$nomValue]?>'>
+                            <a href='../3controler/serviceControler.php?action=delete&amp;noserv=<?php echo $value[$nomValue]?>'>
                             <button class='btn btn-outline-danger' value='Remove'>Supprimer</button>
                             </a>  
                     <?php
@@ -117,13 +117,13 @@ function affichageGlobal($data, $session, $donnees, $nomValue, $taille){
                         
                         </td>
                         <td>
-                            <a href='../controler/formSerControler.php?action=modifier&amp;noserv=<?php echo $value[$nomValue]?>'> 
+                            <a href='../3controler/formSerControler.php?action=modifier&amp;noserv=<?php echo $value[$nomValue]?>'> 
                                 <button class='btn btn-outline-success' value='Modify'>Modifier</button>
                                 </a> 
                         </td>
                     <?php } ?>
                     <td>
-                            <a href='../controler/serviceControler.php?action=consulter&amp;noserv=<?php echo $value[$nomValue] ?>'>
+                            <a href='../3controler/serviceControler.php?action=consulter&amp;noserv=<?php echo $value[$nomValue] ?>'>
                             <button class='btn btn-outline-info' value='Consult'>Consulter</button>
                             </a> 
                         </td>

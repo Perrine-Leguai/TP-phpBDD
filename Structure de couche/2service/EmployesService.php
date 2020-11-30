@@ -1,8 +1,8 @@
 <?php 
     
-    include_once(__DIR__ .'/../dao/EmployesMysqliDao.php');
-    require_once(__DIR__.'/../service/InterfaceEmpService.php');
-    require_once(__DIR__ . '/../service/CommunService.php');
+    include_once(__DIR__ .'/../1dao/EmployesMysqliDao.php');
+    require_once(__DIR__.'/../2service/InterfaceEmpService.php');
+    require_once(__DIR__ . '/../2service/CommunService.php');
     mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
     require_once('ExceptionService.php');
 
@@ -15,20 +15,20 @@
                     $rs=EmployesMysqliDao :: add($emp);
                     return $rs;
                 }catch(ExceptionDAO $eserv){
-                    throw new ExceptionService($eserv->getMessage(), $eserv->getCode());
+                    throw new ExceptionService( $eserv->getCode());
                 }catch(Exception $eserv){
-                    throw new ExceptionService($eserv->getMessage(), $eserv->getCode());
+                    throw new ExceptionService( $eserv->getCode());
                 }
         }
 
-        public  function deleteEmp(int $getnoemp)  {
+        public  function deleteS(int $getnoemp)  {
             try{
                 $rs=EmployesMysqliDao::delete($getnoemp);
                 return $rs;
             }catch(ExceptionDAO $eserv){
-                throw new ExceptionService($eserv->getMessage(), $eserv->getCode());
+                throw new ExceptionService( $eserv->getCode());
             }catch(Exception $eserv){
-                throw new ExceptionService($eserv->getMessage(), $eserv->getCode());
+                throw new ExceptionService( $eserv->getCode());
             }
         }
 
@@ -39,9 +39,9 @@
                 $rs=EmployesMysqliDao :: edit($emp);
                 return $rs;
             }catch(ExceptionDAO $eserv){
-                throw new ExceptionService($eserv->getMessage(), $eserv->getCode());
+                throw new ExceptionService( $eserv->getCode());
             }catch(Exception $eserv){
-                throw new ExceptionService($eserv->getMessage(), $eserv->getCode());
+                throw new ExceptionService( $eserv->getCode());
             }
         }
     
@@ -49,9 +49,9 @@
             try{
               return EmployesMysqliDao :: research();  
             }catch(ExceptionDAO $eserv){
-                throw new ExceptionService($eserv->getMessage(), $eserv->getCode());
+                throw new ExceptionService( $eserv->getCode());
             }catch(Exception $eserv){
-                throw new ExceptionService($eserv->getMessage(), $eserv->getCode());
+                throw new ExceptionService( $eserv->getCode());
             }
             
         }

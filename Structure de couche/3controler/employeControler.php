@@ -3,8 +3,8 @@
 //     header('location: ../controler/indexControler.php');
 // }
 
-include_once(__DIR__ .'/../service/EmployesService.php');
-include_once(__DIR__ . '/../presentation/employepres.php ');
+include_once(__DIR__ .'/../2service/EmployesService.php');
+include_once(__DIR__ . '/../4presentation/employepres.php ');
 mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 require_once('exceptionControler.php');
 
@@ -30,9 +30,9 @@ require_once('exceptionControler.php');
                 html();
                 afficherMess($rs,$_POST['noemp']);
             }catch(ExceptionService $econ){
-                afficherMess($rs=null,$info=null, $econ->getCode(),$econ->getMessage());
+                afficherMessage($econ->getCode());
             }catch(Exception $econ){
-                throw new Exception($econ->getMessage(), $econ->getCode());
+                echo "site en maintenance, merci de revenir ultérieurement";
             }
             
                             
@@ -48,9 +48,9 @@ require_once('exceptionControler.php');
                 html();
                 afficherMessDel($rs, $_GET['noemp']); 
             }catch(ExceptionService $econ){
-                throw new ExceptionControler($econ->getMessage(), $econ->getCode());
+                afficherMessage($econ->getCode());
             }catch(Exception $econ){
-                throw new Exception($econ->getMessage(), $econ->getCode());
+                echo "site en maintenance, merci de revenir ultérieurement";
             }
             
             
@@ -76,9 +76,9 @@ require_once('exceptionControler.php');
                     html();
                     afficherMessModif($rs); 
                 }catch(ExceptionService $econ){
-                    throw new ExceptionControler($econ->getMessage(), $econ->getCode());
+                    afficherMessage($econ->getCode());
                 }catch(Exception $econ){
-                    throw new Exception($econ->getMessage(), $econ->getCode());
+                    echo "site en maintenance, merci de revenir ultérieurement";
                 }
     }
 
@@ -93,9 +93,9 @@ require_once('exceptionControler.php');
                         affichagetb($_SESSION['profil'], $_GET);
                         consultation($emp, $_SESSION['profil']);
                     }catch(ExceptionService $econ){
-                        throw new ExceptionControler($econ->getMessage(), $econ->getCode());
+                        afficherMessage($econ->getCode());
                     }catch(Exception $econ){
-                        throw new Exception($econ->getMessage(), $econ->getCode());
+                        echo "site en maintenance, merci de revenir ultérieurement";
                     }
     }
     
@@ -113,9 +113,9 @@ require_once('exceptionControler.php');
             affichagetb($_SESSION['profil'], $_GET);
             affichageGlobal($data, $_SESSION['profil'], $donnees, $nomvalue, $taille);
         }catch(ExceptionService $econ){
-            throw new ExceptionControler($econ->getMessage(), $econ->getCode());
+            afficherMessage($econ->getCode());
         }catch(Exception $econ){
-            throw new Exception($econ->getMessage(), $econ->getCode());
+            echo "site en maintenance, merci de revenir ultérieurement";
         }
     
     }

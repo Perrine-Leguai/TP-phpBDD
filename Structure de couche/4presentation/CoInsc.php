@@ -15,10 +15,10 @@
 
         <div class="boutons col-4 offset-4 mt-5 row">
             <div class="  col-6">
-                <a href="../controler/indexControler.php?action=connection" ><button name="connexion" type="submit"  class="btn btn-primary "> Se connecter </button></a>
+                <a href="../3controler/indexControler.php?action=connection" ><button name="connexion" type="submit"  class="btn btn-primary "> Se connecter </button></a>
             </div>
             <div class=" col-6">
-                <a href="../controler/indexControler.php?action=inscription" ><button name="connexion" type="submit"  class="btn btn-primary "> s'inscrire  </button></a>
+                <a href="../3controler/indexControler.php?action=inscription" ><button name="connexion" type="submit"  class="btn btn-primary "> s'inscrire  </button></a>
             </div>
         </div>
     </div>

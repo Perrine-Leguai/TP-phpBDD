@@ -2,8 +2,8 @@
 // if (!$_SESSION) {
 //     header('location: ../controler/indexControler.php');
 // }
-    include_once(__DIR__ .'/../service/ServicesService.php');
-    include_once(__DIR__ . '/../presentation/servicepres.php ');
+    include_once(__DIR__ .'/../2service/ServicesService.php');
+    include_once(__DIR__ . '/../4presentation/servicepres.php ');
 
     
 

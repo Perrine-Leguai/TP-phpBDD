@@ -1,6 +1,6 @@
 <?php
 if (!$_SESSION){
-    header('Location: ../controler/indexControler.php');
+    header('Location: ../3controler/indexControler.php');
 }
 
 
@@ -28,13 +28,21 @@ function lienSE($mailsession){ ?>
 
             <div class="boutons col-4 offset-4 mt-5 row">
                 <div class="  col-6">
-                    <a href="../controler/employeControler.php" ><button name="connexion" type="submit"  class="btn btn-primary "> Les employés </button></a>
+                    <a href="../3controler/employeControler.php" ><button name="connexion" type="submit"  class="btn btn-primary "> Les employés </button></a>
                 </div>
                 <div class=" col-6">
-                    <a href="../controler/serviceControler.php" ><button name="connexion" type="submit"  class="btn btn-primary "> Les services </button></a>
+                    <a href="../3controler/serviceControler.php" ><button name="connexion" type="submit"  class="btn btn-primary "> Les services </button></a>
                 </div>
             </div>
         </div>
     </body>
     </html>
-<?php } ?>
+<?php } 
+
+function afficherMessage($getCode=null){
+    if ($getCode && $getCode == 2002){
+        echo "accès à la base de donnée impossible";
+    }
+}
+
+?>

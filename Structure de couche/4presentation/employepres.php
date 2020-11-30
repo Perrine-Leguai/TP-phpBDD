@@ -1,10 +1,10 @@
 <?php
 session_start();
 if (!$_SESSION){
-    header('Location: ../controler/indexControler.php');
+    header('Location: ../3controler/indexControler.php');
 }
 
-include_once(__DIR__ .'/../dao/EmployesMysqliDao.php');
+include_once(__DIR__ .'/../1dao/EmployesMysqliDao.php');
 
 //HTML
 function html(){ ?>
@@ -29,22 +29,22 @@ function boutons($get, $session ){ ?>
                 <?php 
                     if (isset($get['action']) && $get['action']='consulter'){ ?>
                         <div class="  col-1 text-left">
-                            <a href="../controler/employeControler.php"><img src="../img/fleche.png" ></button></a>
+                            <a href="../3controler/employeControler.php"><img src="../img/fleche.png" ></button></a>
                         </div>
                         <?php
                     }
 
                     if ($session=="administrateur"){ ?>
                         <div class="  col-3 mb-1">
-                            <a href="../controler/formEmpControler.php"><button type="button" class="btn btn-outline-primary " >Ajouter un.e employé.e  +</button></a>
+                            <a href="../3controler/formEmpControler.php"><button type="button" class="btn btn-outline-primary " >Ajouter un.e employé.e  +</button></a>
                         </div>
                 <?php } ?>
                     
                     <div class=" <?php if(isset($session) && $session=="administrateur"){ echo"col-5 mb-1";} else {echo "col-8 mb-1";} ?>">
-                        <a href="../controler/serviceControler.php" ><button name="employes" type="submit"  class="btn btn-primary "> SERVICES </button></a>
+                        <a href="../3controler/serviceControler.php" ><button name="employes" type="submit"  class="btn btn-primary "> SERVICES </button></a>
                     </div>
                     <div class=" col-3 mb-1">
-                        <a href="../controler/userControler.php?p=deco" ><button name="deconnexion" type="submit"  class="btn btn-outline-secondary "> Se déconnecter  X </button></a>
+                        <a href="../3controler/userControler.php?p=deco" ><button name="deconnexion" type="submit"  class="btn btn-outline-secondary "> Se déconnecter  X </button></a>
                     </div>
             </div>
 <?php
@@ -144,7 +144,7 @@ function affichageGlobal($data, $session, $donnees, $nomValue, $taille){
                 
                     if(!$flag){  
                 ?>
-                            <a href='../controler/employeControler.php?action=delete&amp;noemp=<?php echo $emp->getNoemp()?>'>
+                            <a href='../3controler/employeControler.php?action=delete&amp;noemp=<?php echo $emp->getNoemp()?>'>
                             <button class='btn btn-outline-danger' value='Remove'>Supprimer</button>
                             </a>  
                     <?php
@@ -156,13 +156,13 @@ function affichageGlobal($data, $session, $donnees, $nomValue, $taille){
                         
                         </td>
                         <td>
-                            <a href='../controler/formEmpControler.php?action=modifier&amp;noemp=<?php echo $emp->getNoemp()?>'> 
+                            <a href='../3controler/formEmpControler.php?action=modifier&amp;noemp=<?php echo $emp->getNoemp()?>'> 
                                 <button class='btn btn-outline-success' value='Modify'>Modifier</button>
                                 </a> 
                         </td>
                     <?php } ?>
                         <td>
-                            <a href='../controler/employeControler.php?action=consulter&amp;noemp=<?php echo $emp->getNoemp() ?>'>
+                            <a href='../3controler/employeControler.php?action=consulter&amp;noemp=<?php echo $emp->getNoemp() ?>'>
                             <button class='btn btn-outline-info' value='Consult'>Consulter</button>
                             </a> 
                         </td>
@@ -174,14 +174,19 @@ function affichageGlobal($data, $session, $donnees, $nomValue, $taille){
     </body>
 </html>
 <?php }
-
-function afficherMess($rs=null,$info=null, $errorCode=null, $errorMessage=null){
+function afficherMessage($errorCode){
+    echo $errorCode ;
     if($errorCode && $errorCode == 1062){?>
         <div class="alert alert-danger col-6 offset-3 mt-2 m3-2" role="alert">
             <p class="text-center p-0 m-0"> Employé déjà existant </p>
         </div>
-    <?php
-    ;}
+<?php }
+}
+
+function afficherMess($rs,$info){
+    
+   
+   
     if ($rs){ ?>
         <div class="alert alert-success col-6 offset-3 mt-2 m3-2" role="alert">
             <p class="text-center p-0 m-0"> L'employé.e n° <?php echo($info) ?> a bien été ajouté.e . </p>
@@ -194,21 +199,33 @@ function afficherMess($rs=null,$info=null, $errorCode=null, $errorMessage=null){
         }
 }
 
-function afficherMessDel($rs, $info){ ?>
-    <div class="alert alert-success col-6 offset-3 mt-2 m3-2" role="alert">
-    <p class="text-center p-0 m-0"> L'employé.e n° <?php echo($info) ?> a bien été supprimé.e . </p>
-    </div>
+function afficherMessDel($rs=null, $info=null, $errorCode=null){ 
+    if($errorCode){
+        echo($errorCode);?>
+        <div class="alert alert-danger col-6 offset-3 mt-2 m3-2" role="alert">
+            <p class="text-center p-0 m-0"> Suppression impossible </p>
+        </div>
     <?php
+    ;}
+    if(!$errorCode){ ?>
+       <div class="alert alert-success col-6 offset-3 mt-2 m3-2" role="alert">
+    <p class="text-center p-0 m-0"> L'employé.e n° <?php echo($info) ?> a bien été supprimé.e . </p>
+    </div> 
+    <?php }
+    
 }
 
-function afficherMessModif($rs){
-    if ($rs){ ?>
-        <div class="alert alert-success col-6 offset-3 mt-2 m3-2" role="alert">
-            <p class="text-center p-0 m-0">  Les modifications ont bien été enregistrées . </p>
-        </div>
-    <?php ; }else { ?>
+function afficherMessModif($rs,$errorCode=null){
+    if($errorCode){  
+        echo($errorCode);?>
         <div class="alert alert-danger col-6 offset-3 mt-2 m3-2" role="alert">
             <p class="text-center p-0 m-0"> Echec des modifications </p>
         </div>
     <?php }
+    if ($rs){ ?>
+        <div class="alert alert-success col-6 offset-3 mt-2 m3-2" role="alert">
+            <p class="text-center p-0 m-0">  Les modifications ont bien été enregistrées . </p>
+        </div>
+    <?php 
+    }
 }

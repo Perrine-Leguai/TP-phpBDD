@@ -1,7 +1,7 @@
 <?php
 session_start();
 if (!$_SESSION) {
-    header('location: ../controler/indexControler.php');
+    header('location: ../3controler/indexControler.php');
 }
 
 
@@ -32,7 +32,7 @@ function html(){ ?>
 
 function formulaire(string $action, object $employe=null){ ?>
     
-                                <form action="<?php  if( $action == "modifier"){ echo "../controler/employeControler.php?action=modifier"; }else{ echo "../controler/employeControler.php?action=ajout" ; } ?>&amp;noemp=<?php if( $action== "modifier"){echo $_GET['noemp']; }?>" method="POST">
+                                <form action="<?php  if( $action == "modifier"){ echo "../3controler/employeControler.php?action=modifier"; }else{ echo "../controler/employeControler.php?action=ajout" ; } ?>&amp;noemp=<?php if( $action== "modifier"){echo $_GET['noemp']; }?>" method="POST">
                                     
                                         <div class="row justify-content-md-center">
                                             <!-- NOEMP -->

@@ -1,11 +1,11 @@
 
 <?php
 session_start();
-include_once(__DIR__ .'/../service/UsersService.php');
-include_once(__DIR__ . '/../presentation/userpres.php');
+include_once(__DIR__ .'/../2service/UsersService.php');
+include_once(__DIR__ . '/../4presentation/userpres.php');
 
     if (!isset($_SESSION['mailUser'])){
-        header('Location: ../controler/indexControler.php');
+        header('Location: ../3controler/indexControler.php');
     }
 
     //redirection vers l'accueil
@@ -25,22 +25,28 @@ include_once(__DIR__ . '/../presentation/userpres.php');
             if ($rs) {
                 echo "Query executed. \n";
                 //renvoie à l'ajout
-                header('Location: ../presentation/connexion.php');
+                header('Location: ../4presentation/connexion.php');
     
             } else{
-                header('Location: ../presentation/inscription.php?p=bug');
+                header('Location: ../4presentation/inscription.php?p=bug');
             }
         }
 
     // test de connexion 
     elseif  (isset($_GET['action']) && $_GET['action']=="connect" &&
             isset ($_POST['email']) && !empty($_POST['email'])) {
-            
+            try{
             //recherche l'utilisateur
             $data= UsersService :: testCo($_POST['email']);
             var_dump($data);
+            }catch(ExceptionService $eserv){
+                afficherMessage($eserv->getCode());
+            }catch (Exception $eserv){
+                echo "Pb de connection";
+            }
+
             if (!$data ){
-                header('Location: ../presentation/connexion.php?p=nomail');
+                header('Location: ../4presentation/connexion.php?p=nomail');
         
             }elseif (isset($_POST['mdp']) && !empty($_POST['mdp'])){  
                 //verification mdp
@@ -51,17 +57,17 @@ include_once(__DIR__ . '/../presentation/userpres.php');
 
                     $_SESSION['mailUser']= $_POST['email'];
                     $_SESSION['profil']=$data['profil'];
-                    header('Location: ../controler/userControler.php?action=connected');
+                    header('Location: ../3controler/userControler.php?action=connected');
                 }else {
                 
-                    header('Location: ../presentation/connexion.php?p=nomdp');
+                    header('Location: ../4presentation/connexion.php?p=nomdp');
                 }
             } 
     }
 
     elseif (isset($_GET['p'])  &&  $_GET['p']=="deco") {
         session_destroy();
-        header('Location: ../controler/indexControler.php');
+        header('Location: ../3controler/indexControler.php');
     }
 
 ?>
