@@ -2,7 +2,7 @@
 
 interface CommunService{
     public function deleteS(int $no);
-    public function tableau();
+    public function tableau(string $where=null);
 }
 
 ?>

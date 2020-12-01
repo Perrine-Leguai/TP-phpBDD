@@ -44,7 +44,7 @@
             }
         }
 
-        public  function tableau(){
+        public  function tableau($where=null){
             try{
                 return ServicesMysqliDao :: research();
             }catch(ExceptionDAO $eserv){

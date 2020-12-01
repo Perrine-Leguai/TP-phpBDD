@@ -21,7 +21,7 @@ function html(){ ?>
 }
 
 //BOUTONS
-function boutons($get, $session ){ ?>
+function boutons($get, $session, $nbrAjout=null){ ?>
 
     <body>  
         <div class="container col-12">
@@ -36,11 +36,15 @@ function boutons($get, $session ){ ?>
 
                     if ($session=="administrateur"){ ?>
                         <div class="  col-3 mb-1">
-                            <a href="../3controler/formEmpControler.php"><button type="button" class="btn btn-outline-primary " >Ajouter un.e employé.e  +</button></a>
+                            <div>
+                                <a href="../3controler/formEmpControler.php"><button type="button" class="btn btn-outline-primary " >Ajouter un.e employé.e  +</button></a>
+                                <div class="row"><p id="nbAdd" ><?php echo $nbrAjout." employés ajoutés aujourd'hui "?></p>
+                            </div>
                         </div>
                 <?php } ?>
                     
-                    <div class=" <?php if(isset($session) && $session=="administrateur"){ echo"col-5 mb-1";} else {echo "col-8 mb-1";} ?>">
+                    <div class=" <?php if(isset($session) && $session=="administrateur"){ echo"col-4 mb-1 ";} else {echo "col-7 mb-1 ";} ?>">
+                        
                         <a href="../3controler/serviceControler.php" ><button name="employes" type="submit"  class="btn btn-primary "> SERVICES </button></a>
                     </div>
                     <div class=" col-3 mb-1">
@@ -49,6 +53,18 @@ function boutons($get, $session ){ ?>
             </div>
 <?php
 }
+
+//AFFICHAGE DES CHAMPS DE RECHERCHE
+function champsRecherche(){ ?>
+    <div class="col-12 mt-2 mb-2 row">
+        <div class="col2 mr-2"><p>Champs de recherches : </p></div>
+        <div class="col2 mr-2"><input id="triNom" type="text" placeholder="DUTRONC" name="triNom" value=""> </div>
+        <div class="col2 mr-2"><input id="triPrenom" type="text" placeholder="Jacques" name="triPrenom" value=""></div>
+        <div class="col2 mr-2"><input id="triEmploi" type="text" placeholder="Serrurier" name="triEmploi" value=""></div>
+        <div class="col2 mr-2"><input id="triService" type="text" placeholder="Informatique" name="triService" value=""></div>
+    </div>
+
+<?php }
 
 //AFFICHAGE TABLEAU
 function affichagetb($session, $get){ ?>
@@ -65,6 +81,7 @@ function affichagetb($session, $get){ ?>
                 <?php if ($session=="administrateur"){ ?>
                     <th> Salaire </th>
                     <th> Commission</th>
+                   
                 <?php } ?>
                     <th> N° Service </th>
                 <?php if ($session=="administrateur" || (!empty($get) || (isset($get['action']) && $get['action']!='consulter'))){ ?>
@@ -172,6 +189,8 @@ function affichageGlobal($data, $session, $donnees, $nomValue, $taille){
     </table>
     </div>
     </body>
+    <script src="../jquery-3.5.1.min.js"></script>
+    <script src="../main.js" tye="text/javascript"></script>
 </html>
 <?php }
 function afficherMessage($errorCode){

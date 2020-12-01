@@ -21,9 +21,11 @@ require_once('exceptionControler.php');
             $sal=$_POST['sal']? $_POST['sal'] : NULL;
             $comm=$_POST['comm']? $_POST['comm'] : NULL;
             $noserv=$_POST['noserv']? $_POST['noserv'] : NULL;
+            $dateAjout= date("Y-m-d");
+            echo $dateAjout;
 
             try{
-                $rs=EmployesService :: addEmp($noemp, $nom, $prenom, $emploi, $sup, $embauche, $sal, $comm, $noserv);
+                $rs=EmployesService :: addEmp($noemp, $nom, $prenom, $emploi, $sup, $embauche, $sal, $comm, $noserv, $dateAjout);
             
                 /* affiche un message en cas d'échec ou de réussite de l'ajout*/
                 
@@ -102,14 +104,36 @@ require_once('exceptionControler.php');
     //affichage globale
     else{
         try{
-            $data= EmployesMysqliDao :: research();
             
+            if(!empty($_POST) && isset($_GET['id']) && isset($_GET['valeur'])){
+                if($_GET['id']=='triNom'){
+                    echo ("blabl");
+                    $id='nom';
+                    $where="where ".$id." LIKE'%".$_GET['valeur']."%'";
+                    $data= EmployesMysqliDao :: research($where=null);
+                    echo json_encode($data);
+                }elseif($_GET['id']=='triPrenom'){
+                    $id='prenom';
+                    $where="where ".$id." LIKE'%".$_GET['valeur']."%'";
+                }elseif($_GET['id']=='triEmploi'){
+                    $id='emploi';
+                    $where="where ".$id." LIKE'%".$_GET['valeur']."%'";
+                }elseif($_GET['id']=='triService'){
+                    $id='noserv';
+                    $where = 'AS e INNER JOIN `serv` AS s ON e.noserv= s.noserv where s.serv LIKE "%'.$_GET['valeur'].'%"';
+                }
+            }
+            $data= EmployesMysqliDao :: research($where=null);
             $donnees= EmployesMysqliDao :: rechercheSup();
             $nomvalue='noemp';
             $taille=count($donnees);
+            $nbrAjout= EmployesService :: nbrAjoutCService();
+            
+            $nbrAjoute= $nbrAjout[0]['NbAjout'];
 
             html();
-            boutons($_GET, $_SESSION['profil']);
+            boutons($_GET, $_SESSION['profil'], $nbrAjoute);
+            champsRecherche();
             affichagetb($_SESSION['profil'], $_GET);
             affichageGlobal($data, $_SESSION['profil'], $donnees, $nomvalue, $taille);
         }catch(ExceptionService $econ){
@@ -119,3 +143,4 @@ require_once('exceptionControler.php');
         }
     
     }
+

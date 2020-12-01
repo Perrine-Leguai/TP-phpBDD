@@ -1,6 +1,6 @@
 <?php
 
-class Employe {
+class Employe implements \JsonSerializable{
 
     private $noemp;
     private $nom;
@@ -11,9 +11,7 @@ class Employe {
     private $sal;
     private $comm;
     private $noserv;
-    
-
-
+    private $dateAjout;
 
     public function getNoemp():int{
         return $this ->noemp;
@@ -88,6 +86,20 @@ class Employe {
         $this->sup= $newSup;
         return $this;
     }
+    
+    public function getDateAjout() : string
+    {
+        return $this->dateAjout;
+    }
+
+    
+    public function setDateAjout(string $dateAjout) :self
+    {
+        $this->dateAjout = $dateAjout;
+
+        return $this;
+    }
+
     public function __toString() :string
     {
         return " [noemp] :" . $this->noemp . 
@@ -110,4 +122,10 @@ class Employe {
         return $data;
         }
 
+    public function jsonSerialize(){
+        return get_object_vars($this);
+    }
+
+
+    
 }

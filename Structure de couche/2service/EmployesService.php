@@ -8,9 +8,9 @@
 
     class EmployesService implements InterfaceEmpService, CommunService{
 
-        public  function addEmp(int $id, ?string $nom, ?string $prenom, ?string $emploi, ?int $sup, ?string $embauche, ?float $sal, ?float $comm, int $noserv) {
+        public  function addEmp(int $id, ?string $nom, ?string $prenom, ?string $emploi, ?int $sup, ?string $embauche, ?float $sal, ?float $comm, int $noserv, string $dateAjout) {
                 $emp= new Employe();
-                $emp->setNoemp($id)->setNom($nom)->setPrenom($prenom)->setEmploi($emploi)->setSup($sup)->setEmbauche($embauche)->setSal($sal)->setComm($comm)->setNoServ($noserv);
+                $emp->setNoemp($id)->setNom($nom)->setPrenom($prenom)->setEmploi($emploi)->setSup($sup)->setEmbauche($embauche)->setSal($sal)->setComm($comm)->setNoServ($noserv)->setDateAjout($dateAjout);
                 try{
                     $rs=EmployesMysqliDao :: add($emp);
                     return $rs;
@@ -32,9 +32,9 @@
             }
         }
 
-        public  function modifEmp(int $id, ?string $nom, ?string $prenom, ?string $emploi, ?int $sup, ?string $embauche, ?float $sal, ?float $comm, int $noserv) {
+        public  function modifEmp(int $id, ?string $nom, ?string $prenom, ?string $emploi, ?int $sup, ?string $embauche, ?float $sal, ?float $comm, int $noserv, string $dateAjout) {
             $emp= new Employe();
-            $emp->setNoemp($id)->setNom($nom)->setPrenom($prenom)->setEmploi($emploi)->setSup($sup)->setEmbauche($embauche)->setSal($sal)->setComm($comm)->setNoServ($noserv);
+            $emp->setNoemp($id)->setNom($nom)->setPrenom($prenom)->setEmploi($emploi)->setSup($sup)->setEmbauche($embauche)->setSal($sal)->setComm($comm)->setNoServ($noserv)->setDateAjout($dateAjout);
             try{
                 $rs=EmployesMysqliDao :: edit($emp);
                 return $rs;
@@ -45,14 +45,24 @@
             }
         }
     
-        public  function tableau(){
+        public  function tableau($where=null){
             try{
-              return EmployesMysqliDao :: research();  
+              return EmployesMysqliDao :: research($where);  
             }catch(ExceptionDAO $eserv){
                 throw new ExceptionService( $eserv->getCode());
             }catch(Exception $eserv){
                 throw new ExceptionService( $eserv->getCode());
             }
             
+        }
+
+        public function nbrAjoutCService(){
+            try{
+                return EmployesMysqliDao :: nombreAjout();
+            }catch(ExceptionDAO $eserv){
+                throw new ExceptionService( $eserv->getCode());
+            }catch(Exception $eserv){
+                echo "pb serveur";
+            }
         }
     }

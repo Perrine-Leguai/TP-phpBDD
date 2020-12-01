@@ -19,16 +19,18 @@ class EmployesMysqliDao extends ParentMysqliDao implements RechercheSup{
         $g=$objet->getSal();
         $h=$objet->getComm();
         $i=$objet->getNoserv(); 
+        $j=$objet->getDateAjout();
 
         try{
             $db=parent :: connect();
             
             // on insère les nouvelles données
-            $stmt=$db->prepare("INSERT INTO emp values (?,?,?,?,?,?,?,?,?)") ;
-            $stmt->bind_param('isssisddi', $a, $b,$c, $d, $e, $f, $g, $h, $i);
+            $stmt=$db->prepare("INSERT INTO emp values (?,?,?,?,?,?,?,?,?,?)") ;
+            $stmt->bind_param('isssisddis', $a, $b,$c, $d, $e, $f, $g, $h, $i, $j);
             $rs=$stmt->execute();
             $db->close();
             return $rs;
+            $counter ++ ;
         }catch(mysqli_sql_exception $edao){
             
             throw new ExceptionDAO( $edao->getCode());
@@ -68,6 +70,7 @@ class EmployesMysqliDao extends ParentMysqliDao implements RechercheSup{
         $g=$objet->getSal();
         $h=$objet->getComm();
         $i=$objet->getNoserv(); 
+
         try{
             $db=parent :: connect();
             
@@ -85,12 +88,12 @@ class EmployesMysqliDao extends ParentMysqliDao implements RechercheSup{
     }
 
     //RECHERCHER DANS LA BDD
-    public  function research(){
+    public  function research($where=null){
         try{
             $db= parent :: connect();
 
             //récupère toute les données de la table emp
-            $stmt=$db->prepare("SELECT * FROM emp");
+            $stmt=$db->prepare("SELECT * FROM emp".$where );
             $stmt->execute();
             $rs=$stmt->get_result();
             $data = $rs->fetch_all(MYSQLI_ASSOC);
@@ -152,6 +155,22 @@ class EmployesMysqliDao extends ParentMysqliDao implements RechercheSup{
             throw new ExceptionDAO( $edao->getCode());
         }catch(Exception $edao){
             throw new ExceptionDAO( $edao->getCode());
+        }
+    }
+
+    public function nombreAjout(){
+        try{
+            $db= parent :: connect();
+
+            $stmt=$db->prepare("SELECT count(noemp)'NbAjout' from emp where dateAdd=CURRENT_DATE");
+            $stmt->execute();
+            $rs=$stmt->get_result();
+            $nbr= $rs->fetch_all(MYSQLI_ASSOC);
+            return $nbr;
+        }catch(mysqli_sql_exception $edao){
+            throw new ExceptionDAO($edao->getCode());
+        }catch(Exception $edao){
+            echo "probleme serveur";
         }
     }
 }

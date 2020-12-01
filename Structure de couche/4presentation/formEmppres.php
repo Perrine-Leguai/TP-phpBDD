@@ -32,7 +32,7 @@ function html(){ ?>
 
 function formulaire(string $action, object $employe=null){ ?>
     
-                                <form action="<?php  if( $action == "modifier"){ echo "../3controler/employeControler.php?action=modifier"; }else{ echo "../controler/employeControler.php?action=ajout" ; } ?>&amp;noemp=<?php if( $action== "modifier"){echo $_GET['noemp']; }?>" method="POST">
+                                <form action="<?php  if( $action == "modifier"){ echo "../3controler/employeControler.php?action=modifier"; }else{ echo "../3controler/employeControler.php?action=ajout" ; } ?>&amp;noemp=<?php if( $action== "modifier"){echo $_GET['noemp']; }?>" method="POST">
                                     
                                         <div class="row justify-content-md-center">
                                             <!-- NOEMP -->
@@ -92,7 +92,7 @@ function formulaire(string $action, object $employe=null){ ?>
                                             
                                             <!-- BOUTON -->
                                             <div class=" row justify-content-md-center col-4 m-4">
-                                                <button type="submit"  class="btn btn-primary "> <?php if ($action == "modifier"){ echo ("Modifier") ;} else{ echo "Ajouter" ;}?></button>
+                                                <button id="counterAdd" type="submit"  class="btn btn-primary "> <?php if ($action == "modifier"){ echo ("Modifier") ;} else{ echo "Ajouter" ;}?></button>
                                             </div>
 
                                         </div>
@@ -107,5 +107,7 @@ function finhtml(){ ?>
             </div>
         </div>
     </body>
+    <script src="../jquery-3.5.1.min.js"></script>
+    <script src="../main.js" tye="text/javascript"></script>
 </html>
 <?php } ?>
